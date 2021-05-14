@@ -24,6 +24,7 @@ class Address extends Model
         'city',
         'state',
         'country_id',
+        'user_id'
     ];
 
     public function country()

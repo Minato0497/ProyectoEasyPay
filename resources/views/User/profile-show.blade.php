@@ -41,20 +41,22 @@
         <div class="col-6">
             <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
                 <div class="card-body">
-                    @if (empty($user->address_id))
+                    @if (empty($address_user))
                     <a href="{{route('address.create')}}" class="btn btn-primary">Añadir
                         direccion</a>
                     @else
+                    @foreach ($address_user as $address )
                     <h1 class="card-title">Direccion</h1>
-                    <p class="card-text">Nombre: {{$user->address->name}}</p>
-                    <p class="card-text">Direccion: {{$user->address->addressPrimary}}</p>
-                    <p class="card-text">Direccion: {{$user->address->addressSecundary}}</p>
-                    <p class="card-text">Codigo Postal: {{$user->address->postal_code}}</p>
-                    <p class="card-text">Ciudad: {{$user->address->city}}</p>
-                    <p class="card-text">Provincia: {{$user->address->state}}</p>
-                    <p class="card-text">Pais: {{$user->address->country->country}}</p>
-                    <a href="{{route('address.edit',$user->address_id)}}" class="btn btn-primary">Cambiar
+                    <p class="card-text">Nombre: {{$address->name}}</p>
+                    <p class="card-text">Direccion: {{$address->addressPrimary}}</p>
+                    <p class="card-text">Direccion: {{$address->addressSecundary}}</p>
+                    <p class="card-text">Codigo Postal: {{$address->postal_code}}</p>
+                    <p class="card-text">Ciudad: {{$address->city}}</p>
+                    <p class="card-text">Provincia: {{$address->state}}</p>
+                    <p class="card-text">Pais: {{$address->country->country}}</p>
+                    <a href="{{route('address.edit',$address)}}" class="btn btn-primary">Cambiar
                         direccion</a>
+                    @endforeach
                     @endif
                 </div>
             </div>

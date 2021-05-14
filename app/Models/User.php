@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
-    protected $table='users';
+    protected $table = 'users';
     protected $dates = ['deleted_at'];
     /**
      * The attributes that are mass assignable.
@@ -54,6 +54,6 @@ class User extends Authenticatable
 
     public function address()
     {
-        return $this->hasOne(Address::class, 'id', 'address_id');
+        return $this->hasOne(Address::class, 'address_id', 'id');
     }
 }

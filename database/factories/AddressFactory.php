@@ -29,7 +29,7 @@ class AddressFactory extends Factory
             'city'=>$this->faker->city,
             'state'=>$this->faker->state,
             'country_id'=>$this->faker->numberBetween(2, 195),
-            //'user_id'=>$this->faker->unique()->numberBetween(1, 20),
+            'user_id'=>$this->faker->unique()->numberBetween(1, 20),
         ];
     }
 }

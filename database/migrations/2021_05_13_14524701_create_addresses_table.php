@@ -25,9 +25,9 @@ class CreateAddressesTable extends Migration
             $table->string('state')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->foreign('country_id')->references('id')->on('countries');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes(); //Columna para soft delete
-            //$table->foreignId('country_id')->constrained('countries');
-            //$table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

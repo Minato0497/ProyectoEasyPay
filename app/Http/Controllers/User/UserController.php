@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\CreditCard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -21,7 +22,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all();
+        $users = User::all();
         return view('user.user-list', compact('users'));
     }
 
@@ -54,13 +55,13 @@ class UserController extends Controller
      */
     public function show()
     {
-        $id=Auth::user()->id;
-        $current_user=User::where('id', $id)->get();
-        $credit_cards_user=CreditCard::where('user_id', $id)->get();
+        $id = Auth::user()->id;
+        $current_user = User::where('id', $id)->get();
+        $credit_cards_user = CreditCard::where('user_id', $id)->get();
         //dd($credit_cards_user);
-        //$address_user=User::where('address_id')->get();
+        $address_user = Address::where('user_id', $id)->get();
         //dd($address_user);
-        return view('User.profile-show', compact('current_user', 'credit_cards_user'));
+        return view('User.profile-show', compact('current_user', 'credit_cards_user', 'address_user'));
     }
 
     /**
@@ -71,7 +72,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $user=Auth::user();
+        $user = Auth::user();
         return view('User.profile-edit', compact('user'));
     }
 
@@ -84,7 +85,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $request->validate(['name'=>'required']);
+        $request->validate(['name' => 'required']);
         $user->update($request->all());
         return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Usuario actualizado');
     }

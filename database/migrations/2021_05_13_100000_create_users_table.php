@@ -21,10 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->String('phoneNumber')->default('NULL');
             $table->float('monedero', 9, 2)->default(0);
-            $table->unsignedBigInteger('address_id')->nullable();
-            $table->foreign('address_id')->references('id')->on('addresses');
             $table->softDeletes(); //Columna para soft delete
-            //$table->foreignId('address_id')->constrained('addresses')->onUpdate('cascade')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

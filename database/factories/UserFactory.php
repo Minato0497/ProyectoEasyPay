@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'phoneNumber'=>$this->faker->phoneNumber,
             'monedero'=>$this->faker->randomFloat(2, 0, 10000000),
-            'address_id'=>$this->faker->numberBetween(2, 21),
+            //'address_id'=>$this->faker->numberBetween(2, 21),
             'remember_token' => Str::random(10),
         ];
     }

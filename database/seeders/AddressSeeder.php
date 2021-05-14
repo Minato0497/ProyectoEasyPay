@@ -21,6 +21,6 @@ class AddressSeeder extends Seeder
             'state'=>null,
             'country_id'=>1,
         ]);*/
-        Address::factory(21)->create();
+        Address::factory(20)->create();
     }
 }
