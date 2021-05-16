@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Models\CreditCard;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Address;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     public function __construct()
     {
@@ -23,8 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('user.user-list', compact('users'));
+        return view('Admin.User.index');
     }
 
     /**
@@ -54,15 +49,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        $id = Auth::user()->id;
-        $current_user = User::where('id', $id)->get();
-        $credit_cards_user = CreditCard::where('user_id', $id)->get();
-        //dd($credit_cards_user);
-        $address_user = Address::where('user_id', $id)->get();
-        //dd($address_user);
-        return view('User.profile-show', compact('current_user', 'credit_cards_user', 'address_user'));
+        //
     }
 
     /**
@@ -71,10 +60,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        $user = Auth::user();
-        return view('User.profile-edit', compact('user'));
+        //
     }
 
     /**
@@ -84,11 +72,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        $request->validate(['name' => 'required']);
-        $user->update($request->all());
-        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Usuario actualizado');
+        //
     }
 
     /**
@@ -97,9 +83,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $id)
+    public function destroy($id)
     {
-        $id->delete();
-        return redirect()->route('login');
+        //
     }
 }

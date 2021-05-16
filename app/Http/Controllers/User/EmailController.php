@@ -9,9 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class EmailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function edit($id)
     {
-        $user_email=Auth::user()->email;
+        $user_email = Auth::user()->email;
         return view('User.profile-email-edit', compact('user_email'));
     }
 
@@ -24,9 +29,9 @@ class EmailController extends Controller
      */
     public function update(Request $request)
     {
-        $request->validate(['emailNew'=>'required']);
-        $user=User::find(Auth::user()->id);
-        $user->email=$request->input('emailNew');
+        $request->validate(['emailNew' => 'required']);
+        $user = User::find(Auth::user()->id);
+        $user->email = $request->input('emailNew');
         $user->save();
         return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Correo actualizado');
     }

@@ -239,12 +239,17 @@ return [
             'route'       => 'home',
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
+        ],        [
+            'text'         => 'Usuarios',
+            'route'        => 'roleUser.index',
+            'icon'         => 'fas fa-users fa-fw',
         ],
-        ['header' => 'account_settings'],
+
+        ['header' => 'Cuenta'],
         [
-            'text' => 'profile',
+            'text' => 'Cuenta',
             'icon' => 'fas fa-fw fa-user',
-            'submenu'=>[
+            'submenu' => [
                 [
                     'text'    => 'Perfil',
                     'route'   => 'profile.show',
@@ -263,7 +268,7 @@ return [
             'submenu' => [
                 [
                     'text'    => 'Envio Basico',
-                    'route'   => 'envio_basico.create',
+                    'route'   => 'envioBasico.create',
                 ],
                 [
                     'text'    => 'Enviar por lotes',
@@ -399,5 +404,5 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Other-Configuration
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];
