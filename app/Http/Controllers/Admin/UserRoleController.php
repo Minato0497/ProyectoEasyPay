@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserRoleController extends Controller
 {
@@ -22,7 +23,7 @@ class UserRoleController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.user.index',compact('users'));
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -63,9 +64,10 @@ class UserRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        $roles = Role::all();
+        return view('admin.user.edit', compact('roles', 'user'));
     }
 
     /**
@@ -75,9 +77,10 @@ class UserRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $user->roles()->sync($request->roles);
+        return redirect()->route('roleUser.edit', $user)->with('info', 'Se asignaron los roles correctamente');
     }
 
     /**
