@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Transfer;
 
 use App\Models\User;
 use App\Events\Envios;
+use App\Models\CreditCard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -22,56 +23,8 @@ class CreditCardTransferController extends Controller
      */
     public function index()
     {
-        return view('Envios.EnviosBasicos');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $email_envia = Auth::user()->email;
-        return view('Envios.EnviosBasicos', compact('email_envia'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $envia_id=Auth::user()->id;
-        $email_envia=Auth::user()->email;
-        $request->validate(['correo'=>'required','monto'=>'required']);
-        $monto=$request->input('monto');
-        $email_recibe=$request->input('correo');
-        $datos_envio=[$email_envia,$email_recibe,$monto,$envia_id];
-        DB::beginTransaction();
-        try {
-            User::where('email', $email_envia)->decrement('monedero', $monto);
-            User::where('email', $email_recibe)->increment('monedero', $monto);
-            Envios::dispatch($datos_envio);
-            DB::commit();
-            return redirect()->route('home')->with('info', 'Envio realizado');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $e->getMessage();
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $creditCards = CreditCard::where('user_id', Auth::user()->id)->get();
+        return view('creditcard.index', compact('creditCards'));
     }
 
     /**
@@ -80,10 +33,9 @@ class CreditCardTransferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit(CreditCard $creditCard)
     {
-        /*$email_envia = Auth::user()->email;
-        return view('Envios.EnviosBasicos', compact('email_envia'));*/
+        return view('creditcard.transferMoney', compact('creditCard'));
     }
 
     /**
@@ -93,32 +45,39 @@ class CreditCardTransferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, CreditCard $creditCard)
     {
-        /*$email_envia=Auth::user()->email;
-        $request->validate(['correo'=>'required','monto'=>'required']);
-        $monto=$request->input('monto');
-        $email_recibe=$request->input('correo');
-        DB::beginTransaction();
-        try {
-            User::where('email', $email_envia)->decrement('monedero', $monto);
-            User::where('email', $email_recibe)->increment('monedero', $monto);
-            DB::commit();
-            return redirect()->route('home')->with('info', 'Envio realizado');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $e->getMessage();
-        }*/
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $id = Auth::user()->id;
+        if ($request->cuenta == 'savings_account') {
+            $request->validate([
+                'monto' => 'required'
+            ]);
+            DB::beginTransaction();
+            try {
+                CreditCard::where('id', $creditCard->id)->decrement('savings_account', $request->monto);
+                User::where('id', $id)->increment('monedero', $request->monto);
+                DB::commit();
+                return redirect()->route('home')->with('info', 'Transferencia al monedero realizada realizado');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        } elseif ($request->cuenta == 'current_account') {
+            $request->validate([
+                'monto' => 'required',
+            ]);
+            DB::beginTransaction();
+            try {
+                CreditCard::where('id', $creditCard->id)->decrement('current_account', $request->monto);
+                User::where('id', $id)->increment('monedero', $request->monto);
+                DB::commit();
+                return redirect()->route('home')->with('info', 'Transferencia al monedero realizada realizado');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        } else {
+            return redirect()->route('home')->with('info', 'No se pudo realizar la transferencia');
+        }
     }
 }

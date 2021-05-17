@@ -230,19 +230,16 @@ return [
             'topnav' => true,
         ],*/
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
             'text'        => 'Home',
             'route'       => 'home',
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
-        ],        [
+        ],
+        [
             'text'         => 'Usuarios',
             'route'        => 'roleUser.index',
             'icon'         => 'fas fa-users fa-fw',
+            'can'          => 'admin.index',
         ],
 
         ['header' => 'Cuenta'],
@@ -276,7 +273,7 @@ return [
                 ],
             ],
         ],
-        ['header' => 'labels'],
+        ['header' => 'Consejos'],
 
         [
             'text'       => 'Ayuda',

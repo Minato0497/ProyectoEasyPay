@@ -14,6 +14,12 @@ class CreditCardController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $creditCards = CreditCard::where('user_id', Auth::user()->id)->get();
+        return view('creditcard.index', compact('creditCards'));
+    }
+
     public function create()
     {
         return view('User.profile-creditcard-create');
@@ -28,18 +34,18 @@ class CreditCardController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required',
-            'credit_card_type'=>'required',
-            'credit_card_numbers'=>'required',
-            'code'=>'required',
+            'name' => 'required',
+            'credit_card_type' => 'required',
+            'credit_card_numbers' => 'required',
+            'code' => 'required',
         ]);
         CreditCard::create([
-            'name'=>$request->input('name'),
-            'credit_card_type'=>$request->input('credit_card_type'),
-            'credit_card_numbers'=>$request->input('credit_card_numbers'),
-            'credit_card_expiration_date'=>$request->input('credit_card_expiration_date'),
-            'code'=>$request->input('code'),
-            'user_id'=>Auth::user()->id,
+            'name' => $request->input('name'),
+            'credit_card_type' => $request->input('credit_card_type'),
+            'credit_card_numbers' => $request->input('credit_card_numbers'),
+            'credit_card_expiration_date' => $request->input('credit_card_expiration_date'),
+            'code' => $request->input('code'),
+            'user_id' => Auth::user()->id,
         ]);
         return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Tarjeta añadida');
     }
@@ -59,10 +65,10 @@ class CreditCardController extends Controller
     public function update(Request $request, CreditCard $creditCard)
     {
         $request->validate([
-            'name'=>'required',
-            'credit_card_type'=>'required',
-            'credit_card_numbers'=>'required',
-            'code'=>'required',
+            'name' => 'required',
+            'credit_card_type' => 'required',
+            'credit_card_numbers' => 'required',
+            'code' => 'required',
         ]);
         $creditCard->update($request->all());
         $creditCard->save();

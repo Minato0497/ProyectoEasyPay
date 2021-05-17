@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Lista de Usuarios</h4>
                     <table class="table table-striped">
-                        <thead class="thead-inverse">
+                        <thead class="thead-inverse ">
                             <tr>
                                 <th class="cursor-pointer" wire:click="order('id')">ID</th>
                                 <th class="cursor-pointer" wire:click="order('name')">Name</th>
