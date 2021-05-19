@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <h1 class="card-title">Monedero</h1>
                     <p class="card-text">{{$user->monedero}}€</p>
-                    <a href="#" class="btn btn-primary">Agregar al monedero</a>
+                    <a href="{{route('transfercreditcard.index')}}" class="btn btn-primary">Agregar al monedero</a>
                 </div>
             </div>
         </div>
@@ -81,10 +81,10 @@
                     <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
                         @if ($credit_cards_user=='NULL')
                         <div class="card-body">
-                            <a href="{{route('creditCard.create')}}" class="btn btn-primary">Añadir Tarjeta</a>
+                            <a href="{{route('transfercreditcard.index')}}" class="btn btn-primary">Añadir tarjeta</a>
                         </div>
                         @else
-                        <a href="creditCard.create" class="btn btn-primary">Añadir Tarjeta</a>
+                        <a href="{{route('creditCard.create')}}" class="btn btn-primary">Añadir tarjeta</a>
                         @foreach ($credit_cards_user as $creditCard )
                         <div class="card-body">
                             <h1 class="card-title">Tarjeta de Credito</h1>

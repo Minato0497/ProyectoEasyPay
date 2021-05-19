@@ -13,8 +13,9 @@ class RoleUserIndex extends Component
     public $search;
     //public $users;
     public $roles;
+    public $sortBy;
     public $sort = 'id';
-    public $direction = 'desc';
+    public $sortDirection  = 'asc';
     protected $paginationTheme = 'bootstrap';
 
     public function updatingSearch()
@@ -31,17 +32,31 @@ class RoleUserIndex extends Component
         return view('livewire.admin.user.role-user-index', compact('users'));
     }
 
-    public function order($sort)
+    public function order($sortBy)
     {
-        if ($this->sort == $sort) {
+        if ($this->sortBy == $sortBy) {
             if ($this->direction == 'desc') {
                 $this->direction = 'asc';
             } else {
                 $this->direction = 'desc';
             }
         } else {
-            $this->sort = $sort;
+            $this->sortBY = $sortBy;
             $this->direction = 'asc';
         }
+    }
+    public function reverseSort()
+    {
+        return $this->sortDirection === 'asc'
+            ? 'desc'
+            : 'asc';
+    }
+    public function sortBy($field)
+    {
+        $this->sortDirection = $this->sortBy === $field
+            ? $this->reverseSort()
+            : 'asc';
+
+        $this->sortBy = $field;
     }
 }

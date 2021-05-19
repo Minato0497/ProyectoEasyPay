@@ -3,13 +3,14 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-<h1>Address edit</h1>
+<h1>Tarjetas de Credito</h1>
 @stop
 
 @section('content')
 <div class="card">
     <div class="card-body">
         <h4 class="card-title">Lista de tarjetas</h4>
+        <a href="{{route('creditCard.create')}}" class="btn btn-primary float-right">Añadir tarjeta</a>
         <table class="table table-striped">
             <thead class="thead-inverse">
                 <tr>
