@@ -79,17 +79,18 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                        @if ($credit_cards_user='NULL')
+                        @if ($credit_cards_user=='NULL')
                         <div class="card-body">
                             <a href="{{route('creditCard.create')}}" class="btn btn-primary">Añadir Tarjeta</a>
                         </div>
                         @else
+                        <a href="creditCard.create" class="btn btn-primary">Añadir Tarjeta</a>
                         @foreach ($credit_cards_user as $creditCard )
                         <div class="card-body">
                             <h1 class="card-title">Tarjeta de Credito</h1>
                             <p class="card-text">{{$creditCard->credit_card_numbers}}</p>
+                            <p class="card-text">{{$creditCard->credit_card_type}}</p>
                             <p class="card-text">{{$creditCard->credit_card_expiration_date}}</p>
-                            <a href="creditCard.create" class="btn btn-primary">Añadir Tarjeta</a>
                             <form action="{{route('creditCard.destroy',$creditCard)}}" method="POST">
                                 @csrf
                                 @method('DELETE')
