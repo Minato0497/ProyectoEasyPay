@@ -3,7 +3,7 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-    <h1>Address edit</h1>
+    <h1>Tarjeta de credito</h1>
 @stop
 
 @section('content')
@@ -15,6 +15,7 @@
                     <tr>
                         <th>Tarjeta</th>
                         <th>Fecha de caducidad</th>
+                        <th>Tatjetas disponibles</th>
                     </tr>
                 </thead>
                 <tbody>

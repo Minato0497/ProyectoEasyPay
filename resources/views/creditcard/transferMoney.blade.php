@@ -3,7 +3,7 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-    <h1>Address edit</h1>
+    <h1>Transferencia al monedoro</h1>
 @stop
 
 @section('content')

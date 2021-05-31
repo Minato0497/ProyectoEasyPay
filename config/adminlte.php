@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'EasyPay',
+    'title' => 'EZMoney',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only' => true,
     'use_full_favicon' => false,
 
     /*
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Easy</b>Pay',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Money</b>',
+    'logo_img' => 'img/Monogram-EZ-Logo-by-Greenlines-Studios.jpg',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'AdminLTE',
+    'logo_img_alt' => 'EZ',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,11 +65,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
 
@@ -101,12 +101,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
+    'classes_auth_card' => 'bg-gradient-dark',
     'classes_auth_header' => '',
-    'classes_auth_body' => '',
-    'classes_auth_footer' => '',
-    'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_body' => 'bg-gradient-dark',
+    'classes_auth_footer' => 'text-center',
+    'classes_auth_icon' => 'fa-fw text-light',
+    'classes_auth_btn' => 'btn-flat btn-light',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-success elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -232,7 +232,7 @@ return [
         [
             'text'        => 'Home',
             'route'       => 'home',
-            'icon'        => 'far fa-fw fa-file',
+            'icon'        => 'fas fa-home fa-fw',
             'label_color' => 'success',
         ],
         [
@@ -250,11 +250,13 @@ return [
                 [
                     'text'    => 'Perfil',
                     'route'   => 'profile.show',
+                    'icon'    => 'fas fa-user-circle',
                     'url'     => 'user/profile/{profile}',
                 ],
                 [
                     'text'    => 'Registro de Envios',
                     'route'   => 'trasnfer-register.show',
+                    'icon'    => 'fas fa-table',
                     'url'     => 'trasnfer-register/{user}',
                 ],
             ],
@@ -265,19 +267,36 @@ return [
             'submenu' => [
                 [
                     'text'    => 'Envio Basico',
+                    'icon'    => 'fas fa-money-bill-alt',
                     'route'   => 'envioBasico.create',
                 ],
                 [
-                    'text'    => 'Enviar por lotes',
-                    //'route'   => "envio_basico.show",
+                    'text'    => 'Enviar multiple',
+                    'icon'    => 'fas fa-money-bill-alt',
+                    'route'   => "envioMulti.create",
                 ],
             ],
         ],
-        ['header' => 'Consejos'],
+        ['header' => 'Información'],
 
         [
             'text'       => 'Ayuda',
             'icon_color' => 'yellow',
+            'url'        => '#',
+        ],
+        [
+            'text'       => 'Contactenos',
+            'icon_color' => 'blue',
+            'url'        => '#',
+        ],
+        [
+            'text'       => '¿Quienes somos?',
+            'icon_color' => 'green',
+            'url'        => '#',
+        ],
+        [
+            'text'       => 'Donde estamos',
+            'icon_color' => 'purple',
             'url'        => '#',
         ],
 

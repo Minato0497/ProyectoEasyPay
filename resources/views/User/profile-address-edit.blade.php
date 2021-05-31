@@ -3,7 +3,7 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-<h1>Address edit</h1>
+<h1>Editar Direccion</h1>
 @stop
 
 @section('content')

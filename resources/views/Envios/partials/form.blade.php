@@ -1,12 +1,12 @@
 <div class="form-group">
-    {!! Form::label('correo', 'Correo') !!}
-    {!! Form::email('correo', null ,['class'=>'form-control','placeholder'=>'Ingrese el correo a enviar']) !!}
+    <label for="correl">Correo</label>
+    <input type="email" name="correo" id="correo" placeholder="Ingrese el correo a enviar" class="form-control">
     @error('correo')
-    <small <small class="text-danger">
-        {{$message}}
-    </small>
+        <small <small class="text-danger">
+            {{ $message }}
+        </small>
     @enderror
     <br>
-    {!! Form::label('monto', 'Monto') !!}
-    {!! Form::number('monto', null, ['class'=>'form-control','placeholder'=>'Ingrese el monto a enviar']) !!}
+    <label for="monto">Cantidad</label>
+    <input type="number" name="monto" id="monto" placeholder="Ingrese el cantidad a enviar" class="form-control">
 </div>

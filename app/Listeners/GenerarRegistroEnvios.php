@@ -28,6 +28,7 @@ class GenerarRegistroEnvios
      */
     public function handle(Envios $event)
     {
+        //dd($event);
         $save_record_transfers=RecordMoneyTransfer::create([
             'email_envia'=>$event->datos_envios[0],
             'email_recibe'=>$event->datos_envios[1],

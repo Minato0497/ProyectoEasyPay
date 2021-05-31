@@ -3,7 +3,7 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-<h1>Address edit</h1>
+<h1>Editar tarjeta de credito</h1>
 @stop
 
 @section('content')
@@ -12,7 +12,7 @@
         <form action="{{route('creditCard.update',$creditcard)}}" method="post">
             @include('User.partials.creditcardform')
             <br>
-            <button type="submit" class="btn btn-primary">Añadir direccion</button>
+            <button type="submit" class="btn btn-primary">Editar tajeta</button>
         </form>
     </div>
 </div>
