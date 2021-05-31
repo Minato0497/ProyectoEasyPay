@@ -13,8 +13,10 @@ class RoleUserIndex extends Component
     public $search;
     //public $users;
     public $roles;
+    public $sortBy;
     public $sort = 'id';
-    public $direction = 'desc';
+    public $sortDirection  = 'asc';
+    public $direction = 'asc';
     protected $paginationTheme = 'bootstrap';
 
     public function updatingSearch()
@@ -43,5 +45,19 @@ class RoleUserIndex extends Component
             $this->sort = $sort;
             $this->direction = 'asc';
         }
+    }
+    public function reverseSort()
+    {
+        return $this->sortDirection === 'asc'
+            ? 'desc'
+            : 'asc';
+    }
+    public function sortBy($field)
+    {
+        $this->sortDirection = $this->sortBy === $field
+            ? $this->reverseSort()
+            : 'asc';
+
+        $this->sortBy = $field;
     }
 }
