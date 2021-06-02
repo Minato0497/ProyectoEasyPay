@@ -15,14 +15,12 @@ use App\Http\Controllers\Admin\UserRoleController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::fallback(function() {
+Route::fallback(function () {
     return view('error.404');
 });

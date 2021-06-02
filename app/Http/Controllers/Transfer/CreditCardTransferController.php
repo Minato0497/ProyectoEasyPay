@@ -47,8 +47,14 @@ class CreditCardTransferController extends Controller
      */
     public function update(Request $request, CreditCard $creditCard)
     {
+        if ($request->monto < 0) {
+            return back()->with('error', 'No se puede transferir cantidades negativas');
+        }
         $id = Auth::user()->id;
         if ($request->cuenta == 'savings_account') {
+            if ($creditCard->saving_account < $request->monto) {
+                return back()->with('error', 'Saldo insufuciente');
+            }
             $request->validate([
                 'monto' => 'required'
             ]);
@@ -57,12 +63,15 @@ class CreditCardTransferController extends Controller
                 CreditCard::where('id', $creditCard->id)->decrement('savings_account', $request->monto);
                 User::where('id', $id)->increment('monedero', $request->monto);
                 DB::commit();
-                return redirect()->route('home')->with('info', 'Transferencia al monedero realizada realizado');
+                return redirect()->route('home')->with('info', 'Transferencia al monedero realizada +' . $request->monto);
             } catch (\Exception $e) {
                 DB::rollBack();
-                return $e->getMessage();
+                return back()->with('error', 'Transferencia al monedero no se pudo realizar');
             }
         } elseif ($request->cuenta == 'current_account') {
+            if ($creditCard->current_account < $request->monto) {
+                return back()->with('error', 'Saldo insufuciente');
+            }
             $request->validate([
                 'monto' => 'required',
             ]);
@@ -71,13 +80,13 @@ class CreditCardTransferController extends Controller
                 CreditCard::where('id', $creditCard->id)->decrement('current_account', $request->monto);
                 User::where('id', $id)->increment('monedero', $request->monto);
                 DB::commit();
-                return redirect()->route('home')->with('info', 'Transferencia al monedero realizada realizado');
+                return redirect()->route('home')->with('info', 'Transferencia al monedero realizada +' . $request->monto);
             } catch (\Exception $e) {
                 DB::rollBack();
-                return $e->getMessage();
+                return back()->with('error', 'Transferencia al monedero no se pudo realizar');
             }
         } else {
-            return redirect()->route('home')->with('info', 'No se pudo realizar la transferencia');
+            return  back()->with('error', 'No se pudo realizar la transferencia');
         }
     }
 }

@@ -44,28 +44,38 @@ class TransferMultiController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->monto < 0) {
+            return back()->with('error', 'No se puede transferir cantidades negativas');
+        }
+
         $envia_id = Auth::user()->id;
         $email_envia = Auth::user()->email;
         $request->validate(['email' => 'required', 'monto' => 'required']);
         $correos = $request->email;
-
+        $saldo = Auth::user()->monedero;
         $datos_envio = [$email_envia, $request->email, $request->monto, $envia_id];
 
         $cantidad_dec = $request->monto * count($correos);
         //dd($cantidad_dec);
         DB::beginTransaction();
         try {
+            if ($saldo < $cantidad_dec) {
+                return back()->with('error', 'Saldo insuficiente');
+            }
             foreach ($correos as $email) {
+                if ($email == Auth::user()->email) {
+                    return back()->with('error', 'No se puede enviar dinero a uno mismo');
+                }
                 $datos_envio = [$email_envia, $email, $request->monto, $envia_id];
-                User::where('email', $email)->increment('monedero', $request->monto);
+                User::where('email', $email)->firstOrFail()->increment('monedero', $request->monto);
                 Envios::dispatch($datos_envio);
             }
             User::where('email', $email_envia)->decrement('monedero', $cantidad_dec);
             DB::commit();
-            return redirect()->route('home')->with('info', 'Envios realizado');
+            return redirect()->route('home')->with('info', 'Envios realizado -' . $cantidad_dec);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('envioMulti.create')->with('info', $e->getMessage());
+            return back()->with('error', 'Usuario no encontrado');
         }
         //dd($request->email);
     }

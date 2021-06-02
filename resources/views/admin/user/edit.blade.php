@@ -15,7 +15,6 @@
 </div>
 @endif
 <div class="modal-body">
-
     <div class="form-group">
         <p class="h5">Nombre:</p>
         <p class="form-control">{{$user->name}}</p>

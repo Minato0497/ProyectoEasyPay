@@ -15,6 +15,7 @@ class CreditCard extends Model
     protected $fillable = [
         'credit_card_numbers',
         'name',
+        'code',
         'credit_card_type',
         'savings_account',
         'current_account',

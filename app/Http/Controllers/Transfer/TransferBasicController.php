@@ -31,25 +31,36 @@ class TransferBasicController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->monto < 0) {
+            return back()->with('error', 'No se puede transferir cantidades negativas');
+        }
+
         $envia_id = Auth::user()->id;
         $email_envia = Auth::user()->email;
         $request->validate(['correo' => 'required', 'monto' => 'required']);
         $monto = $request->input('monto');
         $email_recibe = $request->input('correo');
-
+        $saldo = Auth::user()->monedero;
         $datos_envio = [$email_envia, $email_recibe, $monto, $envia_id];
         //dd($datos_envio);
-
+        //$user = User::find(Auth::user()->id);
         DB::beginTransaction();
         try {
-            User::where('email', $email_recibe)->increment('monedero', $monto);
+            if ($email_recibe == Auth::user()->email) {
+                return back()->with('error', 'No se puede enviar dinero a uno mismo');
+            }
+            if ($saldo < $monto) {
+                return back()->with('error', 'Saldo insuficiente');
+            }
+            //$saldo = User::where('monedero', '>', $email_recibe)->get();
+            User::where('email', $email_recibe)->firstOrFail()->increment('monedero', $monto);
             User::where('email', $email_envia)->decrement('monedero', $monto);
             Envios::dispatch($datos_envio);
             DB::commit();
-            return redirect()->route('home')->with('info', 'Envio realizado');
+            return redirect()->route('home')->with('info', 'Envio realizado -' . $monto);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('envioBasico.create')->with('info', $e->getMessage());
+            return back()->with('error', 'Usuario no encontrado');
         }
     }
 }
