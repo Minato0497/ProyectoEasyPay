@@ -3,7 +3,7 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-    <h1>Editar Movil</h1>
+    <h1>Editar Móvil</h1>
 @stop
 
 @section('content')
@@ -13,19 +13,19 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label for="phone">Movil antiguo</label>
+                    <label for="phone">Móvil antiguo</label>
                     <br>
                     <label for="phoneOld">{{ Auth::user()->phoneNumber }}</label>
                     <br>
-                    <label for="phoneNew">Movil nuevo</label>
+                    <label for="phoneNew">Móvil nuevo</label>
                     <br>
-                    <input type="text" name="phoneNumberNew" class="form-control" placeholder="Movil nuevo">
+                    <input type="text" name="phoneNumberNew" class="form-control" placeholder="Móvil nuevo">
                     @error('phoneNumberNew')
                         <small <small class="text-danger">
                             {{ $message }}
                         </small>
                     @enderror
-                    <button type="submit" class="btn btn-primary">Modificar Movil</button>
+                    <button type="submit" class="btn btn-primary">Modificar Móvil</button>
                 </div>
             </form>
         </div>

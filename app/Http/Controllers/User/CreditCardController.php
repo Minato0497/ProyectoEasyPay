@@ -72,7 +72,7 @@ class CreditCardController extends Controller
         ]);
         $creditCard->update($request->all());
         $creditCard->save();
-        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Direccion actualizada');
+        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'dirección actualizada');
     }
 
     public function destroy(CreditCard $creditCard)

@@ -25,7 +25,7 @@
 <div class="row">
     <div class="col-sm-8">
         <div class="form-group">
-            <label><span class="hidden-xs">Expiracion</span></label>
+            <label><span class="hidden-xs">Expiración</span></label>
             <div class="input-group">
                 <input type="text" placeholder="MM/YY" name="credit_card_expiration_date" class="form-control" required>
             </div>

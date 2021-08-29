@@ -33,6 +33,6 @@ class PhoneController extends Controller
         $user = User::find(Auth::user()->id);
         $user->phoneNumber = $request->input('phoneNumberNew');
         $user->save();
-        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Movil actualizado');
+        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Móvil actualizado');
     }
 }

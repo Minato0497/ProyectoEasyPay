@@ -3,7 +3,7 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-<h1>Editar tarjeta de credito</h1>
+<h1>Editar tarjeta de crédito</h1>
 @stop
 
 @section('content')

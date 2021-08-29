@@ -60,10 +60,10 @@
                                 <img src="{{ asset('img/credit.jpg') }}" class="card-img-top" alt="imgen tarjeta"
                                     width="200">
                                 <div class="card-body">
-                                    <h5 class="card-title">Tarjeta de credito </h5><br>
+                                    <h5 class="card-title">Tarjeta de crédito </h5><br>
                                     <div class="button mt d-flex flex-row align-items-center"> <a
                                             href="{{ route('transfercreditcard.index') }}"
-                                            class="btn btn-sm btn-primary w-100 ml-2">Ver tarjetas de credito</a>
+                                            class="btn btn-sm btn-primary w-100 ml-2">Ver tarjetas de crédito</a>
                                     </div>
                                 </div>
                             </div>

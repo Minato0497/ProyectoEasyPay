@@ -3,7 +3,7 @@
 @section('title', 'Envio de dinero')
 
 @section('content_header')
-<h1>Envios Basicos</h1>
+<h1>Envío Basicos</h1>
 @stop
 
 @section('content')

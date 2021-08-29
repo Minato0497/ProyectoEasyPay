@@ -41,7 +41,7 @@ class AddressController extends Controller
         ]);
         $address_new=Address::create($request->all());
         User::where('id', Auth::user()->id)->update(['address_id'=>$address_new->id]);
-        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Direccion añadida');
+        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'dirección añadida');
     }
 
     public function edit(Address $address)
@@ -70,6 +70,6 @@ class AddressController extends Controller
         ]);
         $address->update($request->all());
         $address->save();
-        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Direccion actualizada');
+        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'dirección actualizada');
     }
 }

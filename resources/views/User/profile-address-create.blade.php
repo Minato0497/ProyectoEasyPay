@@ -3,7 +3,7 @@
 @section('title', 'User/phone/edit')
 
 @section('content_header')
-<h1>Añadir Direccion</h1>
+<h1>Añadir Dirección</h1>
 @stop
 
 @section('content')
@@ -14,7 +14,7 @@
         <form action="{{route('address.store')}}" method="post">
             @include('User.partials.addressform')
             <br>
-            <button type="submit" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"> Añadir direccion </button>
+            <button type="submit" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"> Añadir dirección </button>
         </form>
     </div>
 </div>

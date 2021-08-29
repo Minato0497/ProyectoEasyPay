@@ -3,7 +3,7 @@
 @section('title', 'User/show')
 
 @section('content_header')
-    <h1>{{ Auth::user()->name }}</h1>
+    <h1>Perfil: {{ Auth::user()->name }}</h1>
 @stop
 @section('content')
     @if (Session::has('info'))
@@ -44,19 +44,19 @@
                             <div class="card-body">
                                 @if (empty($address_user))
                                     <a href="{{ route('address.create') }}" class="btn btn-primary">Añadir
-                                        direccion</a>
+                                        dirección</a>
                                 @else
                                     @foreach ($address_user as $address)
-                                        <h1 class="card-title">Direccion</h1>
+                                        <h1 class="card-title">dirección</h1>
                                         <p class="card-text">Nombre: {{ $address->name }}</p>
-                                        <p class="card-text">Direccion: {{ $address->addressPrimary }}</p>
-                                        <p class="card-text">Direccion: {{ $address->addressSecundary }}</p>
-                                        <p class="card-text">Codigo Postal: {{ $address->postal_code }}</p>
+                                        <p class="card-text">dirección: {{ $address->addressPrimary }}</p>
+                                        <p class="card-text">dirección: {{ $address->addressSecundary }}</p>
+                                        <p class="card-text">Código Postal: {{ $address->postal_code }}</p>
                                         <p class="card-text">Ciudad: {{ $address->city }}</p>
                                         <p class="card-text">Provincia: {{ $address->state }}</p>
-                                        <p class="card-text">Pais: {{ $address->country->country }}</p>
+                                        <p class="card-text">País: {{ $address->country->country }}</p>
                                         <a href="{{ route('address.edit', $address) }}" class="btn btn-primary">Cambiar
-                                            direccion</a>
+                                            dirección</a>
                                     @endforeach
                                 @endif
                             </div>
@@ -67,12 +67,12 @@
                             <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
                                 <div class="card-body">
                                     @if (empty($user->phoneNumber))
-                                        <a href="#" class="btn btn-primary">Añadir Movil</a>
+                                        <a href="#" class="btn btn-primary">Añadir Móvil</a>
                                     @else
-                                        <h1 class="card-title">Movil</h1>
+                                        <h1 class="card-title">Móvil</h1>
                                         <p class="card-text">{{ $user->phoneNumber }}</p>
                                         <a href="{{ route('phone.edit', Auth::user()->id) }}"
-                                            class="btn btn-primary">Cambiar Movil</a>
+                                            class="btn btn-primary">Cambiar Móvil</a>
                                     @endif
 
                                 </div>
@@ -118,7 +118,7 @@
                                         @else
                                             @foreach ($credit_cards_user as $creditCard)
                                                 <div class="card-body">
-                                                    <h1 class="card-title">Tarjeta de Credito</h1>
+                                                    <h1 class="card-title">Tarjeta de crédito</h1>
                                                     <br>
                                                     <p class="card-text">{{ $creditCard->credit_card_type }}</p>
                                                     <p class="card-text">{{ $creditCard->credit_card_numbers }}</p>
@@ -148,6 +148,5 @@
 @section('js')
     <script>
         console.log('Hi!');
-
     </script>
 @stop

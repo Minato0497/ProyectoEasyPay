@@ -224,6 +224,23 @@ return [
     */
 
     'menu' => [
+        [
+            'text' => 'Language',
+            'topnav_right' => true,
+            'icon' => 'flag-icon flag-icon-us',
+            'submenu' => [
+                [
+                    'text'=>'English',
+                    'icon' => 'flag-icon flag-icon-us',
+                    'url'=> '/lang/en'
+                ],
+                [
+                    'text'=>'Español',
+                    'icon' => 'flag-icon flag-icon-es',
+                    'url'=> '/lang/es'
+                ]
+            ]
+        ],
         /*[
             'text' => 'search',
             'search' => true,
@@ -277,7 +294,7 @@ return [
                 ],
             ],
         ],
-        ['header' => 'Información'],
+/*         ['header' => 'Información'],
 
         [
             'text'       => 'Ayuda',
@@ -299,7 +316,7 @@ return [
             'icon_color' => 'purple',
             'url'        => '#',
         ],
-
+ */
     ],
 
     /*
