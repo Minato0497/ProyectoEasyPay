@@ -36,6 +36,6 @@ class CreateCreditCardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('credit_cards');
+        Schema::drop('credit_cards');
     }
 }

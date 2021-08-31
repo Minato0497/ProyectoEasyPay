@@ -33,6 +33,6 @@ class CreateRecordMoneyTransfersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('record_money_transfers');
+        Schema::drop('record_money_transfers');
     }
 }
