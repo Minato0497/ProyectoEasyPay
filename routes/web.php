@@ -17,9 +17,9 @@ use App\Http\Controllers\Admin\UserRoleController;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
-
 Auth::routes();
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
