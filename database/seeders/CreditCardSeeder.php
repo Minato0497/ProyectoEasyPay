@@ -22,7 +22,7 @@ class CreditCardSeeder extends Seeder
             'code'=>null,
             'savings_account'=>0,
             'current_account'=>0,
-            'user_id'=>1,
+            'codUser'=>1,
         ]);*/
         CreditCard::factory(21)->create();
     }

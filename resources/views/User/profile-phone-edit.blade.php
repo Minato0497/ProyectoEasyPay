@@ -15,11 +15,17 @@
                 <div class="form-group">
                     <label for="phone">Móvil antiguo</label>
                     <br>
-                    <label for="phoneOld">{{ Auth::user()->phoneNumber }}</label>
+                    <label for="phoneOld">
+                        @if (Auth::user()->phoneNumber == 'NULL')
+                            ------
+                        @else
+                            {{ Auth::user()->phoneNumber }}
+                        @endif
+                    </label>
                     <br>
                     <label for="phoneNew">Móvil nuevo</label>
                     <br>
-                    <input type="text" name="phoneNumberNew" class="form-control" placeholder="Móvil nuevo">
+                    <input type="telNo" name="phoneNumberNew" class="form-control" placeholder="Móvil nuevo">
                     @error('phoneNumberNew')
                         <small <small class="text-danger">
                             {{ $message }}
@@ -39,6 +45,5 @@
 @section('js')
     <script>
         console.log('Hi!');
-
     </script>
 @stop

@@ -19,7 +19,7 @@ class AddressSeeder extends Seeder
             'postal_code'=>null,
             'city'=>null,
             'state'=>null,
-            'country_id'=>1,
+            'codCountry'=>1,
         ]);*/
         Address::factory(20)->create();
     }

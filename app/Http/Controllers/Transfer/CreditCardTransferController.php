@@ -23,8 +23,8 @@ class CreditCardTransferController extends Controller
      */
     public function index()
     {
-        $creditCards = CreditCard::where('user_id', Auth::user()->id)->get();
-        return view('creditcard.index', compact('creditCards'));
+        //$creditCards = CreditCard::where('id', Auth::user()->id)->get();
+        return view('creditcard.index');
     }
 
     /**

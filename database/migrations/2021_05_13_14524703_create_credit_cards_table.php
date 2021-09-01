@@ -14,7 +14,7 @@ class CreateCreditCardsTable extends Migration
     public function up()
     {
         Schema::create('credit_cards', function (Blueprint $table) {
-            $table->id();
+            $table->id('codCreditCard');
             $table->string('name')->nullable();
             $table->string('credit_card_type')->nullable();
             $table->string('credit_card_numbers')->unique()->nullable();
@@ -22,8 +22,8 @@ class CreateCreditCardsTable extends Migration
             $table->integer('code')->unique()->nullable();
             $table->decimal('savings_account', 9, 2)->default(100);
             $table->decimal('current_account', 9, 2)->default(100);
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('codUser')->nullable();
+            $table->foreign('codUser')->references('id')->on('users');
             $table->softDeletes(); //Columna para soft delete
             $table->timestamps();
         });

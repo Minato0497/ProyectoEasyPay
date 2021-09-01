@@ -11,25 +11,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Address extends Model
 {
-    use HasFactory ,Notifiable,SoftDeletes;
-    protected $table='addresses';
+    use HasFactory, Notifiable, SoftDeletes;
+    protected $table = 'addresses';
     protected $dates = ['deleted_at'];
+    protected $primaryKey = 'codAddress';
 
-
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'addressPrimary',
         'addressSecundary',
         'postal_code',
         'city',
         'state',
-        'country_id',
-        'user_id'
+        'codCountry',
+        'codUser'
     ];
 
     public function country()
     {
-        return $this->hasOne(Country::class, 'id', 'country_id');
+        return $this->hasOne(Country::class, 'codCountry', 'codCountry');
     }
     public function user()
     {

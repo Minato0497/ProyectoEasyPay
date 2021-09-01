@@ -52,12 +52,12 @@ class User extends Authenticatable
 
     public function credit_card()
     {
-        return $this->hasMany(CreditCard::class, 'user_id', 'id');
+        return $this->hasOne(CreditCard::class, 'codUser', 'id');
     }
 
     public function address()
     {
-        return $this->hasOne(Address::class, 'address_id', 'id');
+        return $this->hasOne(Address::class, 'codUser', 'id');
     }
 
     public function record_money_transfer()

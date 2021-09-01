@@ -20,6 +20,11 @@ class PhoneController extends Controller
         return view('User.profile-phone-edit', compact('user_phone'));
     }
 
+    public function create()
+    {
+        return view('User.profile-phone-edit');
+    }
+
     /**
      * Update the specified resource in storage.
      *

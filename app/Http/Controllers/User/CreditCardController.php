@@ -16,8 +16,8 @@ class CreditCardController extends Controller
 
     public function index()
     {
-        $creditCards = CreditCard::where('user_id', Auth::user()->id)->get();
-        return view('creditcard.index', compact('creditCards'));
+        //$creditCards = CreditCard::where('codUser', Auth::user()->id)->get();
+        return view('creditcard.index');
     }
 
     public function create()
@@ -45,7 +45,7 @@ class CreditCardController extends Controller
             'credit_card_numbers' => $request->input('credit_card_numbers'),
             'credit_card_expiration_date' => $request->input('credit_card_expiration_date'),
             'code' => $request->input('code'),
-            'user_id' => Auth::user()->id,
+            'codUser' => Auth::user()->id,
         ]);
         return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Tarjeta añadida');
     }

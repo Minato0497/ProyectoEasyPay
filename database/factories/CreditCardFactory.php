@@ -29,7 +29,7 @@ class CreditCardFactory extends Factory
             'code'=>$this->faker->numberBetween(100, 9999),
             'savings_account'=>$this->faker->randomFloat(2, 0, 10000000),
             'current_account'=>$this->faker->randomFloat(2, 0, 10000000),
-            'user_id'=>$this->faker->numberBetween(1, 20),
+            'codUser'=>$this->faker->numberBetween(1, 20),
         ];
     }
 }

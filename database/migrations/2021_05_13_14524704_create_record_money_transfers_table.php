@@ -14,13 +14,14 @@ class CreateRecordMoneyTransfersTable extends Migration
     public function up()
     {
         Schema::create('record_money_transfers', function (Blueprint $table) {
-            $table->id();
+            $table->id('codRecordMoneyTransfers');
             //$table->foreignId('id_envia')->constrained('users');
             //$table->foreignId('id_recibe')->constrained('users');
             $table->string('email_envia');
             $table->string('email_recibe');
             $table->float('monto', 9, 2);
-            $table->foreignId('envia_id')->constrained('users');
+            $table->unsignedBigInteger('codUser')->nullable();
+            $table->foreign('codUser')->references('id')->on('users');
             //$table->foreignId('recibe_id')->constrained('users');
             $table->timestamps();
         });

@@ -16,17 +16,17 @@ class CreateAddressesTable extends Migration
     public function up()
     {
         Schema::create('addresses', function (Blueprint $table) {
-            $table->id();
+            $table->id('codAddress');
             $table->string('name')->nullable();
             $table->string('addressPrimary')->nullable();
             $table->string('addressSecundary')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->unsignedBigInteger('country_id')->nullable();
-            $table->foreign('country_id')->references('id')->on('countries');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('codCountry')->nullable();
+            $table->foreign('codCountry')->references('codCountry')->on('countries');
+            $table->unsignedBigInteger('codUser')->nullable();
+            $table->foreign('codUser')->references('id')->on('users');
             $table->softDeletes(); //Columna para soft delete
             $table->timestamps();
         });

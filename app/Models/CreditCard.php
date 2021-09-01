@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +12,7 @@ class CreditCard extends Model
 {
     use HasFactory, Notifiable, SoftDeletes;
     protected $table = 'credit_cards';
+    protected $primaryKey = 'codCreditCard';
 
     protected $fillable = [
         'credit_card_numbers',
@@ -20,7 +22,7 @@ class CreditCard extends Model
         'savings_account',
         'current_account',
         'credit_card_expiration_date',
-        'user_id',
+        'codUser',
     ];
     protected $hidden = [
         'code',
