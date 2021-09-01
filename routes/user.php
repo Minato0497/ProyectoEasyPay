@@ -9,9 +9,7 @@ use App\Http\Controllers\User\CreditCardController;
 use App\Http\Controllers\RecordMoneyTransferController;
 
 
-Route::get('trasnfer-register', [RecordMoneyTransferController::class, 'index'])->name('trasnfer-register.index');
-Route::get('trasnfer-register/{user}', [RecordMoneyTransferController::class, 'show'])->name('trasnfer-register.show');
-
+Route::resource('trasnfer-register', RecordMoneyTransferController::class)->only('index', 'show')->names('trasnfer-register');
 Route::resource('user/profile', UserController::class)->names('profile');
 Route::resource('user/profile/phone', PhoneController::class)->names('phone');
 Route::resource('user/profile/email', EmailController::class)->names('email');

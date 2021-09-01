@@ -20,8 +20,8 @@ class CreateRecordMoneyTransfersTable extends Migration
             $table->string('email_envia');
             $table->string('email_recibe');
             $table->float('monto', 9, 2);
-            $table->unsignedBigInteger('codUser')->nullable();
-            $table->foreign('codUser')->references('id')->on('users');
+            $table->unsignedBigInteger('envia_id')->nullable();
+            $table->foreign('envia_id')->references('id')->on('users');
             //$table->foreignId('recibe_id')->constrained('users');
             $table->timestamps();
         });

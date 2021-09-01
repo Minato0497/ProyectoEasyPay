@@ -58,7 +58,7 @@ class UserController extends Controller
     {
         $id = Auth::user()->id;
         $current_user = User::find($id);
-        $credit_cards_user = CreditCard::where('codUser', $id);
+        $credit_cards_user = CreditCard::where('codUser', $id)->get();
         $address_user = Address::where('codUser', $id)->get();
         //dd(auth()->user()->credit_card->credit_card_numbers);
         return view('User.profile-show', compact('current_user', 'credit_cards_user', 'address_user'));
