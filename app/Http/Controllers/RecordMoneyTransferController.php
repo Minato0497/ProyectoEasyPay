@@ -17,17 +17,17 @@ class RecordMoneyTransferController extends Controller
 
     public function index()
     {
-        $register = RecordMoneyTransfer::all();
-        return view('Envios.register', compact('register'));
+        $regiter_transfer_user = RecordMoneyTransfer::all();
+        dd($regiter_transfer_user);
+        return view('Envios.register', compact('regiter_transfer_user'));
     }
 
     public function show($id)
     {
         //$cuerrent_user=$id->id;
-        $cuerrent_user = Auth::user()->id;
-        //$regiter_transfer_user = RecordMoneyTransfer::where('envia_id', $cuerrent_user)->get();
-        $regiter_transfer_user = User::find($cuerrent_user);
-        //dd($regiter_transfer_user->email_envia);
+        $regiter_transfer_user = RecordMoneyTransfer::where('envia_id', Auth::user()->id)->get();
+        //$regiter_transfer_user = User::find(Auth::user()->id);
+        //dd($regiter_transfer_user);
         return view('Envios.register', compact('regiter_transfer_user'));
     }
 }

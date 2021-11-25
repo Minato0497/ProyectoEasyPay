@@ -10,6 +10,7 @@
 <div class="card">
     <div class="card-body">
         <form action="{{route('creditCard.store')}}" method="post">
+            @csrf
             @include('User.partials.creditcardform')
             <br>
             <button type="submit" class="btn btn-primary">Añadir Tarjeta</button>
@@ -24,7 +25,5 @@
 @stop
 
 @section('js')
-<script>
-    console.log('Hi!');
-</script>
+
 @stop
