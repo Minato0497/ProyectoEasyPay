@@ -1,5 +1,8 @@
+<div class="from-group" hidden>
+    <input type="text" id="id" name="id" value="{{ auth()->user()->id }}">
+</div>
 <div class="form-group">
-    <label for="">Correo a enviar</label>
+    <label for="email">Correo a enviar</label>
     <div class="correos">
         <div class="row">
             <div class="col-11">
@@ -13,7 +16,10 @@
             </div>
         </div>
     </div>
-    <br>
-    <label for="monto">Cantidad</label>
-    <input type="number" name="monto" id="monto" placeholder="Ingrese el cantidad a enviar" class="form-control">
+    <span class="text-danger error-text email_error"></span>
+</div>
+<div class="form-group">
+    <label for="amount">Cantidad</label>
+    <input type="number" name="amount" id="amount" placeholder="Ingrese el cantidad a enviar" class="form-control">
+    <span class="text-danger error-text amount_error"></span>
 </div>

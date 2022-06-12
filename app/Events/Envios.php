@@ -23,7 +23,7 @@ class Envios
 
     public function __construct($datos_envios)
     {
-        $this->datos_envios=$datos_envios;
+        $this->datos_envios = $datos_envios;
     }
 
     /**

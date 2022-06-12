@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Transfer;
 use App\Models\User;
 use App\Events\Envios;
 use Illuminate\Http\Request;
+use App\Models\OperationType;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\Constraint\Operator;
 
 class TransferMultiController extends Controller
 {
@@ -44,40 +47,84 @@ class TransferMultiController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->monto < 0) {
-            return back()->with('error', 'No se puede transferir cantidades negativas');
-        }
+        /*
+        1º validar
+        2º transaction
+        3º crear auxiliares
+        4º updateOrCreate
+        */
 
-        $envia_id = Auth::user()->id;
-        $email_envia = Auth::user()->email;
-        $request->validate(['email' => 'required', 'monto' => 'required']);
-        $correos = $request->email;
-        $saldo = Auth::user()->monedero;
-        $datos_envio = [$email_envia, $request->email, $request->monto, $envia_id];
+        //Debo validar TODOS los campos que luego vaya a insertar o editar
+        //Si intento insertar con request()->all me va a meter CSRF's y demás mierdas
 
-        $cantidad_dec = $request->monto * count($correos);
-        //dd($cantidad_dec);
-        DB::beginTransaction();
-        try {
-            if ($saldo < $cantidad_dec) {
-                return back()->with('error', 'Saldo insuficiente');
-            }
-            foreach ($correos as $email) {
-                if ($email == Auth::user()->email) {
-                    return back()->with('error', 'No se puede enviar dinero a uno mismo');
+        $validator = Validator::make(request()->all(), [
+            'id' => 'required',
+            'email' => [
+                'required',
+                // 'exists:users,email',
+                function ($attribute, $value, $onFailure) {
+                    foreach ($value as $email) {
+                        if (auth()->user()->email == $email) {
+                            $onFailure('No se puede enviar dinero a uno mismo.');
+                        }
+                    }
+                },
+                function ($attribute, $value, $onFailure) {
+                    $count = 0;
+                    foreach ($value as $email) {
+                        $count++;
+                        if (!User::where('email', $email)->first()) {
+                            $onFailure('El usuario ' . $count . ' no se encuentra.');
+                        }
+                    }
                 }
-                $datos_envio = [$email_envia, $email, $request->monto, $envia_id];
-                User::where('email', $email)->firstOrFail()->increment('monedero', $request->monto);
-                Envios::dispatch($datos_envio);
+            ],
+            'amount' => [
+                'required',
+                'numeric',
+                'gt:0',
+                function ($attribute, $value, $onFailure) use ($request) {
+                    // $user = User::where('email', $value)->first();
+                    $cantidad = count($request->email);
+                    $amount = $value * $cantidad;
+                    if (auth()->user()->monedero < $amount) {
+                        $onFailure('Saldo insuficiente');
+                    }
+                }
+            ],
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'validation_error' => $validator->errors()->toArray()]);
+        } else {
+            try {
+                DB::beginTransaction();
+
+                $data = $validator->validated();
+                $cantidad = count($data['email']);
+                $amount = $data['amount'] * $cantidad;
+                User::updateOrCreate(['id' => $data['id']], [
+                    'monedero' => auth()->user()->monedero - $amount
+                ]);
+                $envio = null;
+                $codOperationType = OperationType::where('operation_type', 'transferencia')->first()->codOperationType;
+                $codEmisor = auth()->user()->id;
+                foreach ($data['email'] as $email) {
+                    $envio = User::where('email', $email)->firstOrFail()->increment('monedero', $data['amount']);
+                    $codReceptor = User::where('email', $email)->first()->id;
+                    $datos_envio = [$codOperationType, $codEmisor, $codReceptor, $data['amount']];
+                    if ($envio) {
+                        Envios::dispatch($datos_envio);
+                    } else {
+                        break;
+                        DB::rollback();
+                    }
+                }
+                DB::commit();
+                return response()->json(['submit_store_success' => 'Envio realizado -' . $amount]);
+            } catch (\Exception $myException) {
+                DB::rollback();
             }
-            User::where('email', $email_envia)->decrement('monedero', $cantidad_dec);
-            DB::commit();
-            return redirect()->route('home')->with('info', 'Envios realizado -' . $cantidad_dec);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Usuario no encontrado');
         }
-        //dd($request->email);
     }
 
     /**

@@ -22,7 +22,7 @@ class CreditCardController extends Controller
 
     public function create()
     {
-        return view('User.profile-creditcard-create');
+        return view('user.profiles-creditcard-create');
     }
 
     /**
@@ -51,7 +51,7 @@ class CreditCardController extends Controller
     }
     public function edit(CreditCard $creditCard)
     {
-        return view('User.profile-creditcard-edit', compact('creditCard'));
+        return view('user.profiles-creditcard-edit', compact('creditCard'));
     }
 
     /**

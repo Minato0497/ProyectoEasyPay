@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'listUsers')
+@section('title', 'List users')
 
 @section('content_header')
 <h1>Admin</h1>
@@ -19,7 +19,7 @@
         <p class="h5">Nombre:</p>
         <p class="form-control">{{$user->name}}</p>
         <h2 class="h5">Lista de roles</h2>
-        <form action="{{route('roleUser.update',$user)}}" method="POST">
+        <form action="{{route('admin.roleUsers.update',$user)}}" method="POST">
             @csrf
             @method('PUT')
             @foreach ($roles as $role )

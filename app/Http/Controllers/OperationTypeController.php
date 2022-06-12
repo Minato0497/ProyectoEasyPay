@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Address;
-use App\Models\CreditCard;
 use Illuminate\Http\Request;
+use App\Models\OperationType;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class OperationTypeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('can:admin.operationTypes.destroy')->only('destroy');
+        $this->middleware('can:admin.operationTypes.edit')->only('edit', 'store');
     }
 
     /**
@@ -26,8 +25,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('user.user-list', compact('users'));
+        return view('admin.operation.operation');
     }
 
     /**
@@ -46,7 +44,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
         /*
         1º validar
@@ -59,58 +57,41 @@ class UserController extends Controller
         //Si intento insertar con request()->all me va a meter CSRF's y demás mierdas
 
         $validator = Validator::make(request()->all(), [
-            'id' => 'present',
-            'email' => [
+            'codOperationType' => 'nullable',
+            'operation_type' => [
                 'required',
-                Rule::unique('users')->ignore(request()->id, 'id')
+                Rule::unique('operation_types')->ignore(request()->codOperationType, 'codOperationType')
             ],
-            'name' => 'required',
-            'phoneNumber' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => 0, 'validation_error' => $validator->errors()->toArray()]);
         } else {
             try {
-
                 DB::beginTransaction();
 
                 $data = $validator->validated();
-                $model = User::updateOrCreate(['id' => $data['id']], $data);
-                if (request()->hasFile('attachment_id')) {
-                    $model->addMediaFromRequest('profile')
-                        ->toMediaCollection('profile', 'media');                   # code...
-                }
-                // $cancel_store_trait = in_array(CancelStoring::class, class_uses(new User));
-                //El trait deshabilita la edición
-                /* if ($cancel_store_trait == true) {
-                    DB::rollback();
-                    return response()->json(['cancel_store_trait_error' => 'This external module has disabled any changes']);
-                }
-                //updateOrCreate hace un update
-                else */
+                $model = OperationType::updateOrCreate(['codOperationType' => $data['codOperationType']], $data);
                 if (!$model->wasRecentlyCreated && $model->wasChanged()) {
-
+                    $response = 'OperationType updated successfully';
                     DB::commit();
-                    return response()->json(['submit_store_success' => 'User updated successfully']);
                 }
                 //updateOrCreate hace update sin realizar cambios
                 elseif (!$model->wasRecentlyCreated && !$model->wasChanged()) {
-
+                    $response = 'OperationType not changed';
                     DB::commit();
-                    return response()->json(['submit_store_success' => 'User not changed']);
-                    //return response()->json(['cancel_store_trait_error' => 'This external module has disabled any changes']);
                 }
                 //updateOrCreate hace create
                 elseif ($model->wasRecentlyCreated) {
+                    $response = 'OperationType created successfully';
                     DB::commit();
-                    return response()->json(['submit_store_success' => 'User created successfully']);
                 }
+                return response()->json(['submit_store_success' => $response]);
             } catch (\Exception $myException) {
                 DB::rollback();
-                // throw new StoreErrorException('store','panel-fleet-brand-store', json_encode($data), $myException);
             }
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -119,12 +100,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // $id = Auth::user()->id;
-        $current_user = User::find($id);
-        // $credit_cards_user = CreditCard::where('codUser', $id)->get();
-        // $address_user = Address::where('codUser', $id)->get();
-        //dd(auth()->user()->credit_card->credit_card_numbers);
-        return view('User.profile-show');
+        //
     }
 
     /**
@@ -133,10 +109,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        $user = Auth::user();
-        return view('user.profiles-edit', compact('user'));
+        if (request()->ajax()) {
+            return response()->json(OperationType::find($id));
+        }
     }
 
     /**
@@ -146,11 +123,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        $request->validate(['name' => 'required']);
-        $user->update($request->all());
-        return redirect()->route('profile.show', Auth::user()->id)->with('info', 'Usuario actualizado');
+        //
     }
 
     /**
@@ -159,9 +134,35 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $user->delete();
-        return redirect()->route('login');
+        try {
+            OperationType::findOrFail($id)->delete();
+            return response()->json(['submit_delete_success' => 'OperationType deleted successfully.']);
+        } catch (\Exception $myException) {
+            DB::rollback();
+        }
+    }
+
+    public function getOperationTypeDatatable()
+    {
+        $canEdit = auth()->user()->can('admin.operationTypes.edit');
+        $canDelete = auth()->user()->can('admin.operationTypes.destroy');
+        if (request()->ajax()) {
+            return DataTables::of(OperationType::select())
+                ->addIndexColumn()
+                ->addColumn('Actions', function ($data) use ($canEdit, $canDelete) {
+                    $btn = '';
+                    if ($canEdit) {
+                        $btn = '<a href="javascript:void(0)" data-codoperationtype="' . $data->codOperationType . '" class="edit btn btn-primary btn-sm edit"><i class="fas fa-edit"></i></a>';
+                    }
+                    if ($canDelete) {
+                        $btn .= '<a href="javascript:void(0)" data-codoperationtype="' . $data->codOperationType . '"  class="btn btn-danger btn-sm delete"><i class="fas fa-minus-square"></i></a>';
+                    }
+                    return $btn;
+                })
+                ->rawColumns(['Actions'])
+                ->make(true);
+        }
     }
 }

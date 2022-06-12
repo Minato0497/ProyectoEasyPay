@@ -8,6 +8,7 @@ use Database\Seeders\UserSeeder;
 use Database\Seeders\AddressSeeder;
 use Database\Seeders\CountrySeeder;
 use Database\Seeders\CreditCardSeeder;
+use Database\Seeders\OperationTypeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,10 +19,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(CountrySeeder::class);
-        $this->call(AddressSeeder::class);
-        $this->call(CreditCardSeeder::class);
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,
+            OperationTypeSeeder::class
+        ]);
     }
 }

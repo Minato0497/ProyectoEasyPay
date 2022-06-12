@@ -18,53 +18,60 @@ class RoleSeeder extends Seeder
         $admin = Role::create(['name' => 'admin']);
         $user = Role::create(['name' => 'user']);
 
-        Permission::create(['name' => 'home'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.*.*'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'admin.*.*']);
 
-        Permission::create(['name' => 'admin.index'])->syncRoles([$admin]);
-        Permission::create(['name' => 'admin.create'])->syncRoles([$admin]);
-        Permission::create(['name' => 'admin.show'])->syncRoles([$admin]);
-        Permission::create(['name' => 'admin.destroy'])->syncRoles([$admin]);
-        Permission::create(['name' => 'admin.edit'])->syncRoles([$admin]);
-        Permission::create(['name' => 'roleUser.index'])->syncRoles([$admin]);
-        Permission::create(['name' => 'roleUser.update'])->syncRoles([$admin]);
-        Permission::create(['name' => 'roleUser.edit'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.admin.*']);
+        Permission::create(['name' => 'admin.admin.index'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.admin.create'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.admin.show'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.admin.destroy'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.admin.edit'])->syncRoles([$admin]);
 
-        Permission::create(['name' => 'envioBasico.index'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'envioBasico.create'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'envioBasico.show'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'envioBasico.destroy'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'envioBasico.edit'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'admin.roleUsers.*']);
+        Permission::create(['name' => 'admin.roleUsers.index'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.roleUsers.update'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.roleUsers.edit'])->syncRoles([$admin]);
 
-        Permission::create(['name' => 'address.index'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'address.create'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'address.show'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'address.destroy'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'address.edit'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'admin.operationTypes.*']);
+        Permission::create(['name' => 'admin.operationTypes.index'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.operationTypes.edit'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.operationTypes.destroy'])->syncRoles([$admin]);
 
-        Permission::create(['name' => 'creditCard.index'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'creditCard.create'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'creditCard.show'])->syncRoles([$admin], $user);
-        Permission::create(['name' => 'creditCard.destroy'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'creditCard.edit'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioBasicos.*']);
+        Permission::create(['name' => 'user.envioBasicos.index'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioBasicos.create'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioBasicos.show'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioBasicos.destroy'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioBasicos.edit'])->syncRoles([$admin, $user]);
 
-        Permission::create(['name' => 'email.index'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'email.create'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'email.show'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'email.destroy'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'email.edit'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioMulti.*']);
+        Permission::create(['name' => 'user.envioMulti.index'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioMulti.create'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioMulti.show'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioMulti.destroy'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.envioMulti.edit'])->syncRoles([$admin, $user]);
 
-        Permission::create(['name' => 'phone.index'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'phone.create'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'phone.show'])->syncRoles([$admin], $user);
-        Permission::create(['name' => 'phone.destroy'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'phone.edit'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.emails.*']);
+        Permission::create(['name' => 'user.emails.index'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.emails.create'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.emails.show'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.emails.destroy'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.emails.edit'])->syncRoles([$admin, $user]);
 
-        Permission::create(['name' => 'profile.index'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'profile.create'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'profile.show'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'profile.destroy'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.profiles.*']);
+        Permission::create(['name' => 'user.profiles.index'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.profiles.create'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.profiles.show'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.profiles.destroy'])->syncRoles([$admin, $user]);
 
-        Permission::create(['name' => 'transfer-register.index'])->syncRoles([$admin]);
-        Permission::create(['name' => 'transfer-register.show'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.movements.*']);
+        Permission::create(['name' => 'user.movements.index'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.movements.create'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.movements.show'])->syncRoles([$admin, $user]);
+        Permission::create(['name' => 'user.movements.destroy'])->syncRoles([$admin, $user]);
+
+        // Permission::create(['name' => 'transfer-register.index'])->syncRoles([$admin]);
+        // Permission::create(['name' => 'transfer-register.show'])->syncRoles([$admin, $user]);
     }
 }

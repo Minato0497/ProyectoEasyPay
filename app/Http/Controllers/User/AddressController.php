@@ -19,7 +19,7 @@ class AddressController extends Controller
     public function create()
     {
         $countries = Country::all()->sortBy('country');
-        return view('User.profile-address-create', compact('countries'));
+        return view('user.profiles-address-create', compact('countries'));
     }
 
     /**
@@ -56,7 +56,7 @@ class AddressController extends Controller
     public function edit(Address $address)
     {
         $countries = Country::all();
-        return view('User.profile-address-edit', compact('address', 'countries'));
+        return view('user.profiles-address-edit', compact('address', 'countries'));
     }
 
     /**

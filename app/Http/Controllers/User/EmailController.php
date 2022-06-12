@@ -17,7 +17,7 @@ class EmailController extends Controller
     public function edit($id)
     {
         $user_email = Auth::user()->email;
-        return view('User.profile-email-edit', compact('user_email'));
+        return view('user.profiles-email-edit', compact('user_email'));
     }
 
     /**

@@ -17,12 +17,12 @@ class PhoneController extends Controller
     public function edit(User $user)
     {
         $user_phone = $user->phoneNumber;
-        return view('User.profile-phone-edit', compact('user_phone'));
+        return view('user.profiles-phone-edit', compact('user_phone'));
     }
 
     public function create()
     {
-        return view('User.profile-phone-edit');
+        return view('user.profiles-phone-edit');
     }
 
     /**

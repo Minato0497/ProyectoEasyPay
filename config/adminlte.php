@@ -88,6 +88,7 @@ return [
     'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
+    'layout_dark_mode' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -187,7 +188,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'user/home/index',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -224,22 +225,30 @@ return [
     */
 
     'menu' => [
-        [
+        /* [
             'text' => 'Language',
             'topnav_right' => true,
             'icon' => 'flag-icon flag-icon-us',
             'submenu' => [
                 [
-                    'text'=>'English',
+                    'text' => 'English',
                     'icon' => 'flag-icon flag-icon-us',
-                    'url'=> '/lang/en'
+                    'url' => '/lang/en'
                 ],
                 [
-                    'text'=>'Español',
+                    'text' => 'Español',
                     'icon' => 'flag-icon flag-icon-es',
-                    'url'=> '/lang/es'
+                    'url' => '/lang/es'
                 ]
             ]
+        ], */
+        [
+            'type'         => 'darkmode-widget',
+            'topnav_right' => true, // Or "topnav => true" to place on the left.
+            'icon_enabled' => 'fas fa-moon',
+            'icon_disabled' => 'fas fa-sun',
+            'color_enabled' => 'dark',
+            'color_disabled' => 'yellow'
         ],
         /*[
             'text' => 'search',
@@ -248,53 +257,82 @@ return [
         ],*/
         [
             'text'        => 'Home',
-            'route'       => 'home',
+            'route'       => 'user.home.index',
             'icon'        => 'fas fa-home fa-fw',
             'label_color' => 'success',
         ],
         [
-            'text'         => 'Usuarios',
-            'route'        => 'roleUser.index',
-            'icon'         => 'fas fa-users fa-fw',
-            'can'          => 'admin.index',
+            'text' => 'Admin',
+            'icon' => 'fas fa-fw fa-user',
+            'can' => ['admin.admin.index', 'admin.operationTypes.index'],
+            'submenu' => [
+                [
+                    'text'         => 'Usuarios',
+                    'route'        => 'admin.roleUsers.index',
+                    'icon'         => 'fas fa-users fa-fw',
+                    'can'          => 'admin.admin.index',
+                ],
+                [
+                    'text'         => 'Tipos de Operacion',
+                    'route'        => 'admin.operationTypes.index',
+                    'icon'         => 'fas fa-users fa-fw',
+                    'can'          => 'admin.operationTypes.index',
+                ],
+                [
+                    'text'         => 'Transferir Ingreso',
+                    'route'        => 'admin.ingress.index',
+                    'icon'         => 'fas fa-users fa-fw',
+                    // 'can'          => 'admin.ingress.index',
+                ],
+            ],
         ],
 
-        ['header' => 'Cuenta'],
-        [
+        // ['header' => 'Cuenta'],
+        /* [
             'text' => 'Cuenta',
             'icon' => 'fas fa-fw fa-user',
             'submenu' => [
-                [
+                /* [
                     'text'    => 'Perfil',
-                    'route'   => 'profile.show',
+                    // 'route'   => 'user.profiles.show',
                     'icon'    => 'fas fa-user-circle',
-                    'url'     => 'user/profile/{profile}',
-                ],
-                [
+                    'url'     => 'user/profiles/index/{index}',
+                ], */
+        /* [
                     'text'    => 'Registro de Envios',
-                    'route'   => 'trasnfer-register.show',
+                    // 'route'   => 'user.trasnfer-register.show',
                     'icon'    => 'fas fa-table',
                     'url'     => 'trasnfer-register/{user}',
                 ],
             ],
-        ],
+        ], */
         [
-            'text'    => 'Enviar dinero',
+            'text'    => 'Operaciones',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
                     'text'    => 'Envio Basico',
                     'icon'    => 'fas fa-money-bill-alt',
-                    'route'   => 'envioBasico.create',
+                    'route'   => 'user.envioBasicos.create',
                 ],
                 [
                     'text'    => 'Enviar multiple',
                     'icon'    => 'fas fa-money-bill-alt',
-                    'route'   => "envioMulti.create",
+                    'route'   => "user.envioMulti.create",
+                ],
+                [
+                    'text'    => 'Ingresar',
+                    'icon'    => 'fas fa-money-bill-alt',
+                    'route'   => "user.ingress.index",
+                ],
+                [
+                    'text'    => 'Retirar',
+                    'icon'    => 'fas fa-money-bill-alt',
+                    'route'   => "user.retire.index",
                 ],
             ],
         ],
-/*         ['header' => 'Información'],
+        /*         ['header' => 'Información'],
 
         [
             'text'       => 'Ayuda',
@@ -355,27 +393,183 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                    'location' => '//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                    'location' => '//cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                    'location' => '//cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.0.1/css/buttons.bootstrap5.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.0.1/js/buttons.bootstrap5.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/1.7.0/js/buttons.flash.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/colreorder/1.5.4/css/colReorder.bootstrap4.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/colreorder/1.5.4/js/dataTables.colReorder.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/datetime/1.1.0/css/dataTables.dateTime.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/datetime/1.1.0/js/dataTables.dateTime.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/keytable/2.6.2/css/keyTable.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/keytable/2.6.2/js/dataTables.keyTable.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/rowgroup/1.1.3/css/rowGroup.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/searchbuilder/1.1.0/css/searchBuilder.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/searchbuilder/1.1.0/js/dataTables.searchBuilder.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/searchpanes/1.3.0/css/searchPanes.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js',
                 ],
             ],
         ],
+        'summernote' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css',
+                ],
+            ],
+        ],
+
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -424,6 +618,75 @@ return [
                 ],
             ],
         ],
+        'Toastr' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js',
+                ],
+            ],
+        ],
+
+        //Iconos de banderas en datatable o donde quieras
+        'flags-sprite' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//github.com/downloads/lafeber/world-flags-sprite/flags32.css',
+                    /* 'asset' => true,
+                    'location' => 'flags-lafeber/flags32.css', */
+                ],
+            ],
+        ],
+
+        /* //mis JS (en adminlte y en cdns.blade.php)
+        'mySummernote' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'mySummernote/app.js',
+                    //si pones ASSET = TRUE, no te hace falta esto: 'location' => asset('mySummernote/app.js'),
+                ],
+            ],
+        ], */
+        /* 'myAttachments' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'myAttachments/app.js',
+                    //si pones ASSET = TRUE, no te hace falta esto: 'location' => asset('myAttachments/app.js'),
+                ],
+            ],
+        ], */
+
+        /* 'Dropzone' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.js',
+                ],
+            ],
+        ], */
     ],
 
     /*
