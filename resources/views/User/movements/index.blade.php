@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="card-title">
                     </div>
-                    <div class="row mt-2">
+                    <div class="row mt-2 filters">
                         <div class="col-md-1 col-sm-12">
                             <i class="fas fa-search" style="font-size: 2em;"></i>
                         </div>
@@ -24,11 +24,11 @@
                             <p>
                                 <select class="movement_filters" name="filter_emisor" id="filter_emisor">
                                     <option value="xxx"> -- --</option>
-                                    @foreach ($usersEmisor as $model)
-                                        @if (auth()->user()->id == $model->has_emisor->id)
-                                            <option value="{{ $model->codEmisor }}">
-                                                {{ $model->has_emisor->email }}</option>
-                                        @endif
+                                    @foreach ($movements as $model)
+                                        {{-- @if (auth()->user()->id == $model->has_emisor->id) --}}
+                                        <option value="{{ $model->codEmisor }}">
+                                            {{ $model->has_emisor->email }}</option>
+                                        {{-- @endif --}}
                                     @endforeach
                                 </select>
                             </p>
@@ -38,18 +38,18 @@
                             <p>
                                 <select class="movement_filters" name="filter_receptor" id="filter_receptor">
                                     <option value="xxx"> -- --</option>
-                                    @foreach ($usersEmisor as $model)
-                                        @if (auth()->user()->id == $model->has_emisor->id)
-                                            @foreach ($usersReceptor as $model)
-                                                <option value="{{ $model->codReceptor }}">
-                                                    @if ($model->has_receptor->getRoleNames()->first() == 'admin')
-                                                        Admin
-                                                    @else
-                                                        {{ $model->has_receptor->email }}
-                                                    @endif
-                                                </option>
-                                            @endforeach
-                                        @endif
+                                    @foreach ($movements as $model)
+                                        {{-- @if (auth()->user()->id == $model->has_emisor->id) --}}
+                                        @foreach ($movements as $model)
+                                            <option value="{{ $model->codReceptor }}">
+                                                @if ($model->has_receptor?->getRoleNames()->first() == 'admin')
+                                                    Admin
+                                                @else
+                                                    {{ $model->has_receptor?->email }}
+                                                @endif
+                                            </option>
+                                        @endforeach
+                                        {{-- @endif --}}
                                     @endforeach
                                 </select>
                             </p>
@@ -66,6 +66,7 @@
                             <!-- table-bordered  -->
                             <tfoot>
                                 <tr>
+                                    <th class="searchable"></th>
                                     <th class="searchable"></th>
                                     <th class="searchable"></th>
                                     <th class="searchable"></th>
@@ -148,8 +149,8 @@
                     }
                 },
                 columns: [{
-                        data: 'codOperationType',
-                        name: 'codOperationType',
+                        data: 'codMovement',
+                        name: 'codMovement',
                         title: '#'
                     },
                     {
@@ -176,6 +177,11 @@
                         data: 'amount',
                         name: 'amount',
                         title: 'Cantidad'
+                    },
+                    {
+                        data: 'success',
+                        name: 'success',
+                        title: 'Success'
                     },
                 ],
             });
@@ -250,6 +256,12 @@
                 dataTable.ajax.reload(null,
                     false); //los parámetros permiten que aunque se refresque, te quedes en la misma página;
             });
+
+            if ("{{ auth()->user()->getRoleNames()->first() }}" == 'admin') {
+                $('.filters').show();
+            } else {
+                $('.filters').hide();
+            }
         });
     </script>
 @stop

@@ -107,17 +107,31 @@ class TransferMultiController extends Controller
                 ]);
                 $envio = null;
                 $codOperationType = OperationType::where('operation_type', 'transferencia')->first()->codOperationType;
+                $envios = [];
                 $codEmisor = auth()->user()->id;
                 foreach ($data['email'] as $email) {
                     $envio = User::where('email', $email)->firstOrFail()->increment('monedero', $data['amount']);
                     $codReceptor = User::where('email', $email)->first()->id;
-                    $datos_envio = [$codOperationType, $codEmisor, $codReceptor, $data['amount']];
-                    if ($envio) {
-                        Envios::dispatch($datos_envio);
-                    } else {
+                    $datos_envio = ['codOperationType' => $codOperationType, 'codEmisor' => $codEmisor, 'codReceptor' => $codReceptor, 'amount' => $data['amount'], 'success' => 1];
+                    $envios[] = $datos_envio;
+                    if (!$envio) {
                         break;
-                        DB::rollback();
                     }
+                }
+                // dd($envios);
+                if ($envio) {
+                    foreach ($envios as $model) {
+                        // dd($model['codOperationType']);
+                        Envios::dispatch([
+                            'codOperationType' => $model['codOperationType'],
+                            'codEmisor' =>  $model['codEmisor'],
+                            'codReceptor' =>  $model['codReceptor'],
+                            'amount' => $model['amount'],
+                            'success' => $model['success']
+                        ]);
+                    }
+                } else {
+                    DB::rollback();
                 }
                 DB::commit();
                 return response()->json(['submit_store_success' => 'Envio realizado -' . $amount]);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Movement;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -29,6 +30,7 @@ class HomeController extends Controller
 
         $id = Auth::user()->id;
         $current_user = User::where('id', $id)->get();
-        return view('home', compact('current_user'));
+        $movements = Movement::where('codEmisor', auth()->user()->id)->where('success', 1)->get();
+        return view('home', compact('current_user', 'movements'));
     }
 }

@@ -83,11 +83,12 @@ class TransferBasicController extends Controller
                 $codOperationType = OperationType::where('operation_type', 'transferencia')->first()->codOperationType;
                 $codEmisor = auth()->user()->id;
                 $codReceptor = User::where('email', $data['correo'])->first()->id;
-                $datos_envio = [$codOperationType, $codEmisor, $codReceptor, $data['amount']];
-                if (!$envio) {
+                $datos_envio = [$codOperationType, $codEmisor, $codReceptor, $data['amount'], 1];
+                if ($envio) {
+                    Envios::dispatch($datos_envio);
+                } else {
                     DB::rollback();
                 }
-                Envios::dispatch($datos_envio);
                 DB::commit();
                 return response()->json(['submit_store_success' => 'Envio realizado -' . $data['amount']]);
             } catch (\Exception $myException) {

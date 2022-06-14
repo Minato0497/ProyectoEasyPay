@@ -46,33 +46,33 @@
                         $count = 0;
                     @endphp
 
-                    @foreach (auth()->user()->movements as $model)
+                    @foreach ($movements as $model)
                         @php
                             $count++;
                         @endphp
                         @if ($count < 6)
-                            @if ($model->codOperation == 1)
-                                {{-- <p class="txn-list">{{ $model->has_receptor->name }} --}}
-                                ({{ $model->has_operation_type->operation_type }})
-                                <span class="credit-amount">+{{ $model->amount }}€</span>
-                                </p>
-                            @elseif ($model->codOperation == 2)
+                            @if ($model->codOperationType == 1)
                                 <p class="txn-list">
-                                    {{-- {{ $model->has_receptor->name }} --}}
-                                    ({{ $model->has_operation_type->operation_type }})<span
+                                    {{ $model->has_operation_type->operation_type }}
+                                    <span class="credit-amount">+{{ $model->amount }}€</span>
+                                </p>
+                            @elseif ($model->codOperationType == 2)
+                                <p class="txn-list">
+                                    {{ $model->has_operation_type->operation_type }}<span
                                         class="debit-amount">-{{ $model->amount }} €</span>
                                 </p>
-                            @else
+                            @elseif ($model->codOperationType == 3)
                                 <p class="txn-list">
-                                    {{ $model->has_receptor->name }}
-                                    ({{ $model->has_operation_type->operation_type }})<span
-                                        class="debit-amount">-{{ $model->amount }}€</span>
+                                    {{ $model->has_receptor?->name }}
+                                    ({{ $model->has_operation_type->operation_type }})
+                                    <span class="debit-amount">-{{ $model->amount }}€</span>
                                 </p>
                             @endif
                         @endif
                     @endforeach
-                    <a href="{{ route('user.movements.index') }}" class="btn btn-outline-light">Ver historial
-                        completo</a>
+                    <p><a href="{{ route('user.movements.index') }}" class="btn btn-outline-light">Ver historial
+                            completo</a></p>
+
                     {{-- <p class="txn-list">Payment to xyz shop<span class="debit-amount">-$100</span></p>
 
                     <p class="txn-list">Payment to abc shop<span class="debit-amount">-$150</span></p>

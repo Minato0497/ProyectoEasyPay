@@ -30,14 +30,14 @@ class GenerarRegistroEnvios
      */
     public function handle(Envios $event)
     {
-        //dd($event);
+        // dd($event);
         $save_record_transfers = Movement::create([
             'date_movement' => Carbon::now(),
-            'codOperationType' => $event->datos_envios[0],
-            'codEmisor' => $event->datos_envios[1],
-            'codReceptor' => $event->datos_envios[2],
-            'amount' => $event->datos_envios[3],
-            'success' => $event->datos_envios[4] ?? 0
+            'codOperationType' => $event->datos_envios['codOperationType'],
+            'codEmisor' => $event->datos_envios['codEmisor'],
+            'codReceptor' => $event->datos_envios['codReceptor'],
+            'amount' => $event->datos_envios['amount'],
+            'success' => $event->datos_envios['success'] ?? 0
         ]);
         return $save_record_transfers;
     }

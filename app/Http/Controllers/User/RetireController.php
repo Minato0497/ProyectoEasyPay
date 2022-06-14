@@ -54,9 +54,14 @@ class RetireController extends Controller
         // dd(request()->all());
 
         $validator = Validator::make(request()->all(), [
-            'id' => 'required',
+            'id' => 'present',
             'amount' => [
                 'required',
+                function ($attribute, $value, $onFailure) use ($request) {
+                    if (auth()->user()->monedero < $value) {
+                        $onFailure('Saldo insuficiente');
+                    }
+                }
             ],
         ]);
         if ($validator->fails()) {
@@ -66,19 +71,22 @@ class RetireController extends Controller
                 DB::beginTransaction();
                 // dd(request()->all());
                 $data = $validator->validated();
-                $model = User::find($data['id']);
-                if ($model->monedero < $data['amount']) {
-                    $response = 'Saldo insuficiente';
-                    return response()->json(['submit_store_error' => $response]);
-                }
-                $codEmisor = auth()->user()->id;
-                $codReceptor = auth()->user()->id;
                 $codOperationType = OperationType::where('operation_type', 'retiro')->first()->codOperationType;
-                $datos_envio = [$codOperationType, $codEmisor, $codReceptor, $data['amount'], 1];
-                Envios::dispatch($datos_envio);
-                $model->decrement('monedero', $data['amount']);
-                $response = 'Retire created successfully';
-                DB::commit();
+                $estado = User::find(auth()->user()->id)->decrement('monedero', $data['amount']);
+                $model = Movement::create([
+                    'date_movement' => Carbon::now(),
+                    'codEmisor' => auth()->user()->id,
+                    'codReceptor' => auth()->user()->id,
+                    'codOperationType' => $codOperationType,
+                    'amount' => request()->amount,
+                    'success' => 1
+                ]);
+                // dd($estado);
+                // $model = User::find($data['id']);
+                if ($model->wasRecentlyCreated && $estado) {
+                    $response = 'Retire created successfully';
+                    DB::commit();
+                }
                 return response()->json(['submit_store_success' => $response, 'monedero' => $model->monedero]);
             } catch (\Exception $myException) {
                 DB::rollback();

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Tipo de operacíon')
+@section('title', 'Ingress')
 
 @section('content_header')
     <h1>Ingresar</h1>
@@ -15,16 +15,16 @@
                 <div class="card-body">
                     <div class="card-title">
                     </div>
-                    <form id="MovementForm" action="{{ route('user.ingress.store') }}">
+                    <form id="IngressForm" action="{{ route('user.ingress.store') }}">
                         @csrf
-                        {{-- <input type="hidden" name="codMovement" id="codMovement"> --}}
+                        {{-- <input type="hidden" name="codIngress" id="codIngress"> --}}
                         <div class="form-group">
                             <label for="amount">Cantidad</label>
                             <input type="number" step="0.01" name="amount" id="amount" class="form-control">
                             <span class="text-danger error-text amount_error"></span>
                         </div>
                         <!-- Modal footer -->
-                        <button type="submit" class="btn btn-success" id="SubmitMovementForm">OK</button>
+                        <button type="submit" class="btn btn-success" id="SubmitIngressForm">OK</button>
                         {{-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> --}}
                     </form>
 
@@ -52,11 +52,11 @@
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Casilleros de búsqueda por columnas
             // SI AÑADES ESTE FOOTER; LAS COLUMNAS SE VUELVEN TODAS DEL MISMO ANCHOOOOOOOOOOOOOO
-            $('#SubmitMovementForm').click(function(e) {
+            $('#SubmitIngressForm').click(function(e) {
                 var that = $(this);
                 e.preventDefault();
                 $.ajax({
-                    data: $('#MovementForm').serialize(),
+                    data: $('#IngressForm').serialize(),
                     url: "{{ route('user.ingress.store') }}",
                     type: "post",
                     dataType: 'json',
@@ -69,8 +69,8 @@
                     success: function(data) {
                         if ($.isEmptyObject(data.validation_error) &&
                             $.isEmptyObject(data.submit_store_error)) {
-                            $('#MovementForm').trigger("reset");
-                            $('#modalMovement').modal('hide');
+                            $('#IngressForm').trigger("reset");
+                            $('#modalIngress').modal('hide');
                             toastr.success(data.submit_store_success, '', {
                                 "positionClass": "toast-top-right",
                                 "timeOut": "3000",
@@ -116,9 +116,9 @@
         });
 
         /* function clean_fields() {
-            $('#MovementForm').trigger("reset");
+            $('#IngressForm').trigger("reset");
             resetErrorMsg();
-            $('#MovementForm').find('input[type=hidden]').each(function() {
+            $('#IngressForm').find('input[type=hidden]').each(function() {
                 this.value = null;
             });
         } */

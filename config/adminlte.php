@@ -284,6 +284,12 @@ return [
                     'icon'         => 'fas fa-users fa-fw',
                     // 'can'          => 'admin.ingress.index',
                 ],
+                [
+                    'text'         => 'Movimientos',
+                    'route'        => 'user.movements.index',
+                    'icon'         => 'fas fa-users fa-fw',
+                    'can'          => 'user.movements.index',
+                ],
             ],
         ],
 

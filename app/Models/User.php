@@ -52,7 +52,7 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
     ];
 
-    public function movements()
+    public function has_movements()
     {
         return $this->hasMany(Movement::class, 'codEmisor', 'id')->orderBy('date_movement', 'DESC');
     }
@@ -65,8 +65,19 @@ class User extends Authenticatable implements HasMedia
 
     public function adminlte_desc()
     {
-        $user = User::find(Auth::user()->id);
-        return $role = $user->getRoleNames();
+        // $user = User::find(Auth::user()->id);
+        $roles = [];
+        $view = '';
+        if ($this->roles) {
+            foreach ($this->roles->pluck('name') as $role) {
+                $roles[] = $role;
+            }
+            $view = implode(", ", $roles);
+        } else {
+            $view = '';
+        }
+        return $view;
+        // return $role = $user->getRoleNames();
     }
 
     public function adminlte_profile_url()

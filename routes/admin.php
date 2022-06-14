@@ -17,7 +17,8 @@ Route::prefix('admin')
         Route::prefix('roleUser')
             ->middleware('can:admin.roleUsers.index')
             ->group(function () {
-                Route::resource('index', UserRoleController::class)->only('index', 'edit', 'update')->names('admin.roleUsers');
+                Route::get('getUserDatatable', [UserRoleController::class, 'getUserDatatable'])->name('admin.roleUsers.getUserDatatable');
+                Route::resource('index', UserRoleController::class)->only('index', 'edit', 'update','store')->names('admin.roleUsers');
             });
         Route::prefix('ingress')
             // ->middleware('can:admin.ingress.index')

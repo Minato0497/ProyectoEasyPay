@@ -72,10 +72,24 @@ class IngressController extends Controller
                 DB::beginTransaction();
 
                 $data = $validator->validated();
-                $model = Movement::find($data['codMovement']);
+                $model = Movement::updateOrCreate(['codMovement' => $data['codMovement']], ['success', 1]);
                 User::find($model->codEmisor)->increment('monedero', $model->amount);
-                $model->update(['success', 1]);
-                $response = 'Ingress created successfully';
+                // $model->update(['success', 1]);
+                if (!$model->wasRecentlyCreated && $model->wasChanged()) {
+                    DB::commit();
+                    $response = 'Ingress successfully';
+                }
+                //updateOrCreate hace update sin realizar cambios
+                elseif (!$model->wasRecentlyCreated && !$model->wasChanged()) {
+                    DB::rollback();
+                    // return response()->json(['submit_store_success' => 'Ingress not changed']);
+                    //return response()->json(['cancel_store_trait_error' => 'This external module has disabled any changes']);
+                }
+                //updateOrCreate hace create
+                elseif ($model->wasRecentlyCreated) {
+                    DB::rollback();
+                    // return response()->json(['submit_store_success' => 'User created successfully']);
+                }
                 DB::commit();
                 return response()->json(['submit_store_success' => $response]);
             } catch (\Exception $myException) {

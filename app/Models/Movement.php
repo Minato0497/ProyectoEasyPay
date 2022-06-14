@@ -27,4 +27,5 @@ class Movement extends Model
     {
         return $this->belongsTo(User::class, 'codReceptor', 'id');
     }
+
 }

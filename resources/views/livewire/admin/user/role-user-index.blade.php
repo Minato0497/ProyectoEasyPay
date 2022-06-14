@@ -24,7 +24,7 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td width='10px'>
-                                            <a href="{{ route('admin.roleUsers.edit', $user) }}"
+                                            <a href="{{ route('admin.roleUsers.edit', $user->id) }}"
                                                 class="btn btn-primary">Editar</a>
                                         </td>
                                     </tr>
