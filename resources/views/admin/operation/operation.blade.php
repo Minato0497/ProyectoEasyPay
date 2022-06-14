@@ -63,7 +63,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </di    v>
 @stop
 
 @section('js')
