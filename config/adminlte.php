@@ -286,9 +286,9 @@ return [
                 ],
                 [
                     'text'         => 'Movimientos',
-                    'route'        => 'user.movements.index',
+                    'route'        => 'admin.movements.index',
                     'icon'         => 'fas fa-users fa-fw',
-                    'can'          => 'user.movements.index',
+                    // 'can'          => 'admin.movements.index',
                 ],
             ],
         ],
@@ -316,6 +316,12 @@ return [
             'text'    => 'Operaciones',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
+                [
+                    'text'         => 'Movimientos',
+                    'route'        => 'user.movements.index',
+                    'icon'         => 'fas fa-users fa-fw',
+                    'can'          => 'user.movements.index',
+                ],
                 [
                     'text'    => 'Envio Basico',
                     'icon'    => 'fas fa-money-bill-alt',

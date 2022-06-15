@@ -118,7 +118,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
-                <form id="Userform">
+                <form id="Userform" enctype="multipart/form-data">
                     @csrf
                     <div hidden>
                         <input type="text" name="id" id="id" value="{{ auth()->user()->id }}">
@@ -145,10 +145,16 @@
                         <div class="form-group">
                             <label for="profile">Foto de perfil</label>
                             <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="profile" aria-describedby="profile">
-                                    <label class="custom-file-label" for="profile">Buscar</label>
+                                <div class="form-group custom-file">
+                                    <input class="form-control form-control-sm" type="file" id="profile" name="profile">
                                 </div>
+                                {{-- <div class="custom-file">
+                                    <input class="form-control form-control-sm" type="file" id="attachment_id"
+                                        name="attachment_id">
+                                    <input type="file" class="custom-file-input" name="profile" id="profile"
+                                        aria-describedby="profile">
+                                    <label class="custom-file-label" for="profile">Buscar</label>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -248,20 +254,20 @@
         }
 
         /* body {
-                                        color: #2b2c48;
-                                        font-family: "Jost", sans-serif;
-                                        background-image: url(https://images.unsplash.com/photo-1566738780863-f9608f88f3a9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80);
+                                                                color: #2b2c48;
+                                                                font-family: "Jost", sans-serif;
+                                                                background-image: url(https://images.unsplash.com/photo-1566738780863-f9608f88f3a9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80);
 
-                                        background-repeat: no-repeat;
-                                        background-size: cover;
-                                        background-position: center;
-                                        background-attachment: fixed;
-                                        min-height: 100vh;
-                                        display: flex;
-                                        flex-wrap: wrap;
-                                        padding: 20px;
-                                    }
-                             */
+                                                                background-repeat: no-repeat;
+                                                                background-size: cover;
+                                                                background-position: center;
+                                                                background-attachment: fixed;
+                                                                min-height: 100vh;
+                                                                display: flex;
+                                                                flex-wrap: wrap;
+                                                                padding: 20px;
+                                                            }
+                                                     */
         .card {
             max-width: 75%;
             margin: auto;
@@ -637,11 +643,14 @@
             $('#SubmitUserForm').click(function(e) {
                 var that = $(this);
                 e.preventDefault();
+                var data = new FormData($('#Userform')[0]);
                 $.ajax({
-                    data: $('#Userform').serialize(),
+                    data: data,
                     url: "{{ route('user.profiles.store') }}",
                     type: "post",
                     dataType: 'json',
+                    processData: false, //NECESARIO PARA EL FormData
+                    contentType: false, //NECESARIO PARA EL AFormData
                     beforeSend: function(data) {
                         that.hide();
                     },

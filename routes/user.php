@@ -10,7 +10,9 @@ use App\Http\Controllers\User\RetireController;
 use App\Http\Controllers\User\DepositController;
 use App\Http\Controllers\Transfer\TransferBasicController;
 use App\Http\Controllers\Transfer\TransferMultiController;
+use Illuminate\Support\Facades\Auth;
 
+Auth::routes();
 
 Route::prefix('user')
     ->group(function () {

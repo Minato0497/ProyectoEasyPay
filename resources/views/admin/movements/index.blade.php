@@ -14,6 +14,42 @@
                 <div class="card-body">
                     <div class="card-title">
                     </div>
+                    <div class="row mt-2 filters">
+                        <div class="col-md-1 col-sm-12">
+                            <i class="fas fa-search" style="font-size: 2em;"></i>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <label for="filter_emisor">Emisor</label>
+                            <p>
+                                <select class="movement_filters" name="filter_emisor" id="filter_emisor">
+                                    <option value="xxx"> -- --</option>
+                                    @foreach ($users as $model)
+                                        <option value="{{ $model->id }}">
+                                            {{ $model->name }}</option>
+                                    @endforeach
+                                </select>
+                            </p>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <label for="filter_receptor">Receptor</label>
+                            <p>
+                                <select class="movement_filters" name="filter_receptor" id="filter_receptor">
+                                    <option value="xxx"> -- --</option>
+                                    @foreach ($users as $model)
+                                        <option value="{{ $model->id }}">
+                                            {{ $model->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </p>
+                        </div>
+                        <div class="col-md-1 col-sm-12">
+                            <label><b>Filtar</b></label>
+                            <p>
+                                <button id="reseteador" class="btn btn-secondary">Reset&nbsp;filters</button>
+                            </p>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="datatable" class="table table-striped datatable">
                             <!-- table-bordered  -->
@@ -94,7 +130,7 @@
                     },
                 ],
                 ajax: {
-                    url: "{{ route('user.movements.getMovementDatatable') }}",
+                    url: "{{ route('admin.movements.getMovementDatatable') }}",
                     data: function(d) {
                         d.filter_emisor = $('#filter_emisor').val();
                         d.filter_receptor = $('select[name=filter_receptor] option').filter(

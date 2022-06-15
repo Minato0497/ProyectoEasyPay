@@ -83,7 +83,7 @@ class TransferBasicController extends Controller
                 $codOperationType = OperationType::where('operation_type', 'transferencia')->first()->codOperationType;
                 $codEmisor = auth()->user()->id;
                 $codReceptor = User::where('email', $data['correo'])->first()->id;
-                $datos_envio = [$codOperationType, $codEmisor, $codReceptor, $data['amount'], 1];
+                $datos_envio = ['codOperationType' => $codOperationType, 'codEmisor' => $codEmisor, 'codReceptor' => $codReceptor, 'amount' => $data['amount'], 'success' => 1];
                 if ($envio) {
                     Envios::dispatch($datos_envio);
                 } else {

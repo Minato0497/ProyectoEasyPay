@@ -73,12 +73,12 @@ class UserController extends Controller
             try {
 
                 DB::beginTransaction();
-
+                // dd(request()->all());
                 $data = $validator->validated();
                 $model = User::updateOrCreate(['id' => $data['id']], $data);
-                if (request()->hasFile('attachment_id')) {
+                if (request()->hasFile('profile')) {
                     $model->addMediaFromRequest('profile')
-                        ->toMediaCollection('profile', 'media');                   # code...
+                        ->toMediaCollection('profile', 'media');
                 }
                 // $cancel_store_trait = in_array(CancelStoring::class, class_uses(new User));
                 //El trait deshabilita la edición
@@ -89,22 +89,20 @@ class UserController extends Controller
                 //updateOrCreate hace un update
                 else */
                 if (!$model->wasRecentlyCreated && $model->wasChanged()) {
-
                     DB::commit();
-                    return response()->json(['submit_store_success' => 'User updated successfully']);
+                    $response = 'User updated successfully';
                 }
                 //updateOrCreate hace update sin realizar cambios
                 elseif (!$model->wasRecentlyCreated && !$model->wasChanged()) {
-
                     DB::commit();
-                    return response()->json(['submit_store_success' => 'User not changed']);
-                    //return response()->json(['cancel_store_trait_error' => 'This external module has disabled any changes']);
+                    $response = 'User not changed';
                 }
                 //updateOrCreate hace create
                 elseif ($model->wasRecentlyCreated) {
                     DB::commit();
-                    return response()->json(['submit_store_success' => 'User created successfully']);
+                    $response = 'User created successfully';
                 }
+                return response()->json(['submit_store_success' => $response]);
             } catch (\Exception $myException) {
                 DB::rollback();
                 // throw new StoreErrorException('store','panel-fleet-brand-store', json_encode($data), $myException);
@@ -121,6 +119,7 @@ class UserController extends Controller
     {
         // $id = Auth::user()->id;
         $current_user = User::find($id);
+        // dd(auth()->user()->adminlte_image());
         // $credit_cards_user = CreditCard::where('codUser', $id)->get();
         // $address_user = Address::where('codUser', $id)->get();
         //dd(auth()->user()->credit_card->credit_card_numbers);

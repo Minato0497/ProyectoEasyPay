@@ -69,7 +69,7 @@ class DepositController extends Controller
                     // 'codReceptor' => 2,
                     'codOperationType' => 1,
                     'amount' => request()->amount,
-                    'success' => 1
+                    'success' => 0
                 ]);
                 if (!$model->wasRecentlyCreated && $model->wasChanged()) {
                     $response = 'Deposit updated successfully';

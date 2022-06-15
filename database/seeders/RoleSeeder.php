@@ -19,7 +19,7 @@ class RoleSeeder extends Seeder
         $user = Role::create(['name' => 'user']);
 
         Permission::create(['name' => 'user.*.*'])->syncRoles([$admin, $user]);
-        Permission::create(['name' => 'admin.*.*']);
+        Permission::create(['name' => 'admin.*.*'])->syncRoles([$admin]);
 
         Permission::create(['name' => 'admin.admin.*']);
         Permission::create(['name' => 'admin.admin.index'])->syncRoles([$admin]);
@@ -33,10 +33,20 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'admin.roleUsers.update'])->syncRoles([$admin]);
         Permission::create(['name' => 'admin.roleUsers.edit'])->syncRoles([$admin]);
 
+        Permission::create(['name' => 'admin.ingress.*']);
+        Permission::create(['name' => 'admin.ingress.index'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.ingress.edit'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.ingress.destroy'])->syncRoles([$admin]);
+
         Permission::create(['name' => 'admin.operationTypes.*']);
         Permission::create(['name' => 'admin.operationTypes.index'])->syncRoles([$admin]);
         Permission::create(['name' => 'admin.operationTypes.edit'])->syncRoles([$admin]);
         Permission::create(['name' => 'admin.operationTypes.destroy'])->syncRoles([$admin]);
+
+        Permission::create(['name' => 'admin.movements.*']);
+        Permission::create(['name' => 'admin.movements.index'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.movements.edit'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.movements.destroy'])->syncRoles([$admin]);
 
         Permission::create(['name' => 'user.envioBasicos.*']);
         Permission::create(['name' => 'user.envioBasicos.index'])->syncRoles([$admin, $user]);

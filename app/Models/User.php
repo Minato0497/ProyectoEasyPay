@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -59,8 +60,15 @@ class User extends Authenticatable implements HasMedia
 
     public function adminlte_image()
     {
-        // return $this->getFirstMediaPath('profile');
-        return asset('img/logo.jpeg');
+
+
+
+        if ($this->getFirstMediaUrl('profile')) {
+            $path = explode("/storage/", $this->getFirstMediaUrl('profile'));
+            return asset('storage/' . $path[1]);
+        } else {
+            return asset('img/logo.jpeg');
+        }
     }
 
     public function adminlte_desc()

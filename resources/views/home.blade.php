@@ -19,7 +19,8 @@
             <div class="wallet-container text-center">
                 <div class="d-flex justify-content-center">
                     <div class="img-container">
-                        <img src="{{ asset('img/logo.jpeg') }}" alt="ez money" class="rounded" width="350">
+                        <img src="{{ auth()->user()->adminlte_image() }}" alt="ez money" class="rounded"
+                            width="350">
                     </div>
                 </div>
                 {{-- <p class="page-title"><i class="fa fa-align-left"></i>My E-wallet<i class="fa fa-user"></i></p> --}}

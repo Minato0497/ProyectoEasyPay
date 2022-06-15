@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->String('phoneNumber')->default('NULL');
-            $table->float('monedero', 9, 2)->default(10000);
+            $table->float('monedero', 9, 2)->default(0);
             $table->softDeletes(); //Columna para soft delete
             $table->rememberToken();
             $table->timestamps();
